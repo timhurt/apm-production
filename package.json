@@ -1,0 +1,19 @@
+{
+  "name": "anchorpoint-static-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Anchor Point static site with local compile step",
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.0.1",
+    "live-server": "^1.2.2"
+  },
+  "scripts": {
+    "build": "node scripts/build-static.mjs",
+    "serve:dist": "live-server dist --port=8080 --quiet",
+    "watch": "chokidar \"*.html\" \"css/**/*\" \"js/**/*\" \"img/**/*\" \"partials/**/*\" -i \"dist/**\" --initial -c \"npm run build\"",
+    "dev": "concurrently -k -n WATCH,SERVER -c yellow,cyan \"npm:watch\" \"npm:serve:dist\"",
+    "clean": "rm -rf dist",
+    "preview": "python3 -m http.server 8080 --directory dist"
+  }
+}

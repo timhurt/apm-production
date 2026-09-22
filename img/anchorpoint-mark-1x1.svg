@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220" role="img" aria-labelledby="mark-title mark-desc">
+  <title id="mark-title">Anchor Point Medicine mark</title>
+  <desc id="mark-desc">Square anchor emblem used on mobile screens.</desc>
+  <rect width="220" height="220" rx="42" fill="#0A1A2F"/>
+  <circle cx="110" cy="62" r="22" fill="none" stroke="#C8A96B" stroke-width="10"/>
+  <path d="M110 84v78" stroke="#C8A96B" stroke-width="12" stroke-linecap="round"/>
+  <path d="M52 136c0 32 26 58 58 58s58-26 58-58" fill="none" stroke="#C8A96B" stroke-width="12" stroke-linecap="round"/>
+  <path d="M76 120h68" stroke="#C8A96B" stroke-width="12" stroke-linecap="round"/>
+</svg>
