@@ -178,11 +178,14 @@ function initScrollingLogo() {
 function initRevealAnimations() {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (document.body.dataset.page === 'home') {
-    document.querySelectorAll('.hero-copy > :not(h1)').forEach(el => el.classList.add('reveal'));
     document.querySelectorAll('.reveal').forEach(el => {
       const bounds = el.getBoundingClientRect();
       const isLeft = el.closest('.hero-copy') || bounds.left + bounds.width / 2 < window.innerWidth / 2;
-      el.style.setProperty('--reveal-y', isLeft ? '-10px' : '10px');
+      el.style.setProperty('--reveal-y', el.classList.contains('hero-visual') ? '24px' : (isLeft ? '-10px' : '10px'));
+    });
+    // stagger each row's items (3-up grid on desktop) so they appear in sequence as the row scrolls into view
+    document.querySelectorAll('.editorial-services li.reveal').forEach((el, index) => {
+      el.style.setProperty('--reveal-index', index % 3);
     });
     if (!reduceMotion) document.body.classList.add('home-entrance');
   }
@@ -201,6 +204,40 @@ function initRevealAnimations() {
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
   }
+}
+
+function initAboutParallax() {
+  const wrap = document.querySelector('.editorial-pair--about .editorial-image');
+  const img = wrap?.querySelector('img');
+  if (!wrap || !img) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const desktop = window.matchMedia('(min-width: 901px)');
+  img.classList.add('parallax-img');
+  let frame = 0;
+
+  function update() {
+    frame = 0;
+    if (!desktop.matches) {
+      img.style.transform = '';
+      return;
+    }
+    const rect = wrap.getBoundingClientRect();
+    const elementCenter = rect.top + rect.height / 2;
+    const viewportCenter = window.innerHeight / 2;
+    // image trails the section's own scroll motion so it reads as slower and higher
+    const offset = Math.max(-45, Math.min(45, (viewportCenter - elementCenter) * 0.12));
+    img.style.transform = `translateY(${offset}px)`;
+  }
+
+  function scheduleUpdate() {
+    if (!frame) frame = requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', scheduleUpdate);
+  desktop.addEventListener('change', scheduleUpdate);
+  update();
 }
 
 function initSignupForms() {
@@ -328,6 +365,7 @@ async function initPage() {
   initNavIndicator();
   initScrollingLogo();
   initRevealAnimations();
+  initAboutParallax();
   initSignupForms();
   initOnboardingForm();
   initFooterUtilities();
