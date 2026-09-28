@@ -5,7 +5,7 @@ const rootDir = process.cwd();
 const distDir = path.join(rootDir, 'dist');
 const partialsDir = path.join(rootDir, 'partials');
 
-const pages = ['index.html', 'about.html', 'services.html', 'membership.html', 'faq.html', 'onboarding.html', 'privacy.html', 'terms.html'];
+const pages = ['index.html', 'about.html', 'services.html', 'membership.html', 'faq.html', 'private-primary-care-bethesda.html', 'onboarding.html', 'privacy.html', 'terms.html'];
 const staticDirs = ['css', 'js', 'img'];
 
 function injectPartials(html, headerMarkup, footerMarkup) {

@@ -3,20 +3,58 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Anchor Point provides longitudinal primary care built on trusted relationships and private access to thoughtful medical judgement." />
+  <meta name="description" content="Membership-based primary care for individuals and families in Bethesda, with longer visits, direct access, and Matthew V. Speicher, DO, MBA." />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Anchor Point" />
+  <meta property="og:site_name" content="Anchor Point Medicine" />
   <meta property="og:title" content="Anchor Point Medicine" />
-  <meta property="og:description" content="Anchor Point provides longitudinal primary care built on trusted relationships and private access to thoughtful medical judgement." />
+  <meta property="og:description" content="Membership-based primary care for individuals and families in Bethesda, with longer visits, direct access, and Matthew V. Speicher, DO, MBA." />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Anchor Point Medicine" />
-  <meta name="twitter:description" content="Anchor Point provides longitudinal primary care built on trusted relationships and private access to thoughtful medical judgement." />
-  <title>Anchor Point Medicine and Primary Care</title>
+  <meta name="twitter:description" content="Membership-based primary care for individuals and families in Bethesda, with longer visits, direct access, and Matthew V. Speicher, DO, MBA." />
+  <title>Concierge Care in Bethesda — Anchor Point Medicine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "#anchor-point-medicine",
+      "name": "Anchor Point Medicine",
+      "telephone": "+1-301-895-2626",
+      "email": "info@anchorpoint.med",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "5555 W Cedar Ln.",
+        "addressLocality": "Bethesda",
+        "addressRegion": "MD",
+        "addressCountry": "US"
+      }
+    },
+    {
+      "@type": "Physician",
+      "@id": "#matthew-speicher",
+      "name": "Matthew V. Speicher, DO, MBA",
+      "description": "Former White House Physician; Former Chief of Emergency Medicine at Walter Reed; Retired U.S. Navy Commander; Board-Certified Emergency Physician.",
+      "memberOf": {
+        "@id": "#anchor-point-medicine"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "5555 W Cedar Ln.",
+        "addressLocality": "Bethesda",
+        "addressRegion": "MD",
+        "addressCountry": "US"
+      },
+      "telephone": "+1-301-895-2626"
+    }
+  ]
+}
+  </script>
 </head>
 <body data-page="home">
 
@@ -27,31 +65,25 @@
     <section class="hero section-pad">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <h1>
-            <img class="hero-logo" src="img/anchorpoint-logo-lg.svg" width="2387" height="576" alt="Anchor Point" />
-            <span class="hero-mobile-only">A More Personal Kind of Care</span>
-          </h1>
-          <p class="lede hero-desktop-only">A more personal kind of care, Anchor Point is based on providing trusted relationships, private primary access, and exceptional medical judgment.</p>
-          <p class="lede hero-mobile-only">Anchor Point is based on providing trusted relationships, private primary access, and exceptional medical judgment.</p>
+          <img class="hero-logo" src="img/anchorpoint-logo-lg.svg" width="2387" height="576" alt="Anchor Point Medicine" />
+          <h1>Concierge medicine from a physician you know and trust.</h1>
+          <p class="lede">Membership-based primary care for individuals and families in Bethesda, with longer visits, direct physician access, and a deliberately small practice.</p>
           <form class="signup-form" id="signup" novalidate>
             <label class="sr-only" for="email">Email address</label>
             <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address, like name@example.com" required />
             <button type="submit">Reserve Spot</button>
             <p class="form-status" aria-live="polite"></p>
           </form>
-
-          <div class="social-proof">
-            <p>First 75 new patients receive 10% off when renewing.</p>
-          </div>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Portrait of Dr. Matt Speicher">
+        <div class="hero-visual reveal" aria-label="Portrait of Matthew V. Speicher, DO, MBA">
           <div class="image-placeholder image-placeholder--hero">
-            <img src="img/Anchorpoint-Dr-Matt-Speicher.JPG" alt="Dr. Matt Speicher" />
+            <img src="img/Anchorpoint-Dr-Matt-Speicher.JPG" alt="Matthew V. Speicher, DO, MBA" />
           </div>
           <div class="hero-caption">
-            <p class="hero-caption-name">Dr. Matthew Speicher, DO, MBA</p>
-            <p>Fmr. White House Physician, U.S. Navy Commander (Ret.)</p>
+            <p class="hero-caption-name"><a href="about.html">Meet Dr. Matthew V. Speicher, DO, MBA <span aria-hidden="true">↗</span></a></p>
+            <p>Fmr. White House Physician &amp; Chief of Emergency Medicine, Walter Reed.<br/>
+              Ret. U.S. Navy Commander &amp; Board-Certified Emergency Physician.</p>
           </div>
         </div>
       </div>
@@ -71,11 +103,29 @@
             I’m keeping my practice small so I can remain accessible and provide informed care when it matters most: always.
           </p>
           <div class="editorial-note">
+            <h3>Someone you know. Someone you call “Doc.”</h3>
+            <p>In Naval Aviation, “Doc” is the physician you know personally—the person you call when something happens. That relationship is built over time, through everyday conversations as well as moments of uncertainty. I created Anchor Point to bring that same sense of trust and continuity to individuals and families in Bethesda. By keeping the practice small, I can take time to know you, understand your household, and help you make decisions with context. Care begins long before an urgent question arises. When something important happens, you should know exactly who to call.</p>
+          </div>
+          <div class="editorial-note">
             <h3>A different practice model</h3>
             <p>Visits are not billed to insurance, and a member-based model keeps the practice small for more personal, proactive care.</p>
             <a class="editorial-link" href="about.html">Learn more <span aria-hidden="true">↗</span></a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="editorial-section" aria-labelledby="benefits-heading">
+      <div class="container">
+        <div class="editorial-copy"><p class="eyebrow">Why Anchor Point</p><h2 id="benefits-heading">A closer physician <em>relationship.</em></h2></div>
+        <ul class="editorial-benefits" role="list">
+          <li><h3>Clarity when something happens</h3><p>A new symptom, abnormal test, sick child, or urgent question can feel overwhelming. Direct access to your physician helps you understand what needs attention now and what can wait.</p></li>
+          <li><h3>A doctor who already knows you</h3><p>Your physician gets to know your history, family, priorities, and baseline before a concern becomes urgent.</p></li>
+          <li><h3>Time to think, not just react</h3><p>Longer, unhurried visits make room for careful conversations about prevention, chronic concerns, test results, medications, and long-term health.</p></li>
+          <li><h3>Care for the whole family</h3><p>Adults and children are welcome, giving families a trusted medical home and one physician who understands the household.</p></li>
+          <li><h3>No insurance billing or copays</h3><p>Included membership services are provided outside the insurance billing model, for a simpler, more direct experience without copays for included visits.</p></li>
+          <li><h3>Help navigating the system</h3><p>From specialists and imaging to hospital care and second opinions, Anchor Point helps you understand your options and coordinate the next steps.</p></li>
+        </ul>
       </div>
     </section>
 
@@ -86,22 +136,26 @@
             <p class="eyebrow">Services</p>
             <h2 id="services-heading">Care for the <em>everyday.</em></h2>
           </div>
-          <p>Many concerns that would otherwise require an urgent care visit, emergency department visit, or referral can often be evaluated and treated right from my office.</p>
+          <p>Primary and preventive care, help when illness or injury strikes, and guidance through the wider healthcare system.</p>
         </div>
         <ol class="editorial-services" role="list">
-          <li class="reveal"><span class="service-number" aria-hidden="true">01</span><p>Comprehensive health assessments with a personalized prevention and wellness plan</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">02</span><p>Same- or next-day appointments</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">03</span><p>Primary care for the whole family</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">04</span><p>Chronic disease management and medication refills and optimization</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">05</span><p>Specialist coordination</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">01</span><p>Primary and preventive care with comprehensive health assessments and personalized wellness plans</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">02</span><p>Acute and urgent care with same- or next-day appointments</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">03</span><p>Primary care for the whole family, including adults and children</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">04</span><p>Chronic disease management, medication refills, and medication optimization</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">05</span><p>Care coordination and specialist referrals</p></li>
           <li class="reveal"><span class="service-number" aria-hidden="true">06</span><p>Independent review and interpretation of outside labs and imaging</p></li>
           <li class="reveal"><span class="service-number" aria-hidden="true">07</span><p>Hospital and emergency department medical logistics and coordination</p></li>
           <li class="reveal"><span class="service-number" aria-hidden="true">08</span><p>Travel medicine guidance</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">09</span><p>Office procedures including laceration repair, abscess drainage, joint injections, ear lavage</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">10</span><p>Point-of-care ultrasound</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">11</span><p>EKGs and selected diagnostic testing</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">09</span><p>In-office procedures including laceration repair, abscess drainage, joint injections, and ear lavage</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">10</span><p>Point-of-care ultrasound (POCUS)</p></li>
+          <li class="reveal"><span class="service-number" aria-hidden="true">11</span><p>ECG (EKG) and selected in-office diagnostic testing</p></li>
           <li class="reveal"><span class="service-number" aria-hidden="true">12</span><p>House calls when needed</p></li>
         </ol>
+        <div class="editorial-copy">
+          <a class="editorial-link" href="services.html">Explore Care &amp; Services <span aria-hidden="true">↗</span></a>
+          <div class="editorial-note"><h3>Concierge care for individuals and families.</h3><p>Adults and children are welcome, with one physician who understands the household as well as each person.</p></div>
+        </div>
       </div>
     </section>
 
@@ -109,11 +163,13 @@
       <div class="container editorial-membership-layout">
         <div class="editorial-copy reveal">
           <p class="eyebrow">Membership</p>
-          <h2 id="membership-heading">Be <em>well</em> connected.</h2>
+          <h2 id="membership-heading">A simpler model of <em>private care.</em></h2>
+          <p>Membership supports a smaller practice, more physician time, and direct access—not a fee on top of routine insurance billing for included visits.</p>
+          <p>No copays for included membership visits.</p>
         </div>
         <div class="editorial-copy reveal">
           <table class="editorial-membership-table">
-            <caption class="sr-only">Individual and Family annual membership comparison</caption>
+            <caption>Founding Membership</caption>
             <thead>
               <tr><th scope="col">Individual</th><th scope="col">Family</th></tr>
             </thead>
@@ -126,20 +182,16 @@
                 <td>One adult member</td>
                 <td>Two adults and up to three dependent children through age 26</td>
               </tr>
-              <tr>
-                <td>More family members may be added at age-based rates.</td>
-                <td>Household cap for families that meet this structure.</td>
-              </tr>
             </tbody>
           </table>
-          <p class="editorial-citation">Included visits carry no insurance copays. Additional household members can be added at age-based rates — see <a href="membership.html#household-rates">family member pricing</a>.</p>
+          <p class="editorial-citation">Keep health insurance for care outside Anchor Point. See <a href="membership.html#household-rates">additional household rates</a>.</p>
           <div class="membership-cta-row">
-            <a class="editorial-link" href="onboarding.html">Begin onboarding <span aria-hidden="true">↗</span></a>
-            <a class="editorial-link" href="membership.html">View membership details <span aria-hidden="true">↗</span></a>
+            <a class="button-primary" href="onboarding.html">Apply Today</a>
+            <a class="button-outline" href="membership.html">More Details</a>
           </div>
           <div class="editorial-note editorial-note--founding">
             <h3><i class="bi bi-compass" aria-hidden="true"></i> Founding Circle</h3>
-            <p>Limited to 75 enrolled patients, not households. Founding rates stay fixed for two years; afterward, continuously enrolled members receive 10% off the then-current standard rate.</p>
+            <p>First 75 enrolled patients: rates fixed for two years, then 10% off standard rates with continuous enrollment.</p>
           </div>
         </div>
       </div>
@@ -157,28 +209,21 @@
         <div class="editorial-copy reveal">
           <p class="eyebrow">FAQ</p>
           <h2 id="faq-heading">Before we begin.</h2>
-          <a class="editorial-link" href="#signup">Start a conversation <span aria-hidden="true">↗</span></a>
+          <a class="editorial-link" href="faq.html">More questions <span aria-hidden="true">↗</span></a>
         </div>
         <div class="faq-list reveal">
-          <details class="faq-item"><summary>Is this concierge medicine?</summary><div><p>It offers personal access, but included visits involve no insurance billing or copays.</p></div></details>
-          <details class="faq-item"><summary>Do I still need insurance?</summary><div><p>Yes. Maintain coverage for outside services, specialists, emergencies, hospital care and medications.</p></div></details>
-          <details class="faq-item"><summary>Can children join?</summary><div><p>Yes. The practice welcomes adults and children.</p></div></details>
-          <details class="faq-item"><summary>When should I reach out?</summary><div><p>For symptoms, results, referrals, medications or family health decisions.</p></div></details>
+          <details class="faq-item"><summary>Do I still need health insurance?</summary><div><p>Yes. Keep coverage for specialists, hospital care, medications, and other services outside membership.</p></div></details>
+          <details class="faq-item"><summary>Do you care for children?</summary><div><p>Yes. Adults and children are welcome.</p></div></details>
+          <details class="faq-item"><summary>What does membership include?</summary><div><p>Primary and preventive care, same- or next-day appointments, direct physician access, selected office procedures, and care coordination. <a href="membership.html">Explore membership details.</a></p></div></details>
         </div>
       </div>
     </section>
 
     <section class="section-pad final-cta">
       <div class="container cta-panel reveal">
-        <p class="eyebrow">Stay informed</p>
-        <h2>Interested in a more personal standard of primary care?</h2>
-        <p>Share your email to receive updates and information about Anchor Point.</p>
-        <form class="signup-form signup-form--center" novalidate>
-          <label class="sr-only" for="email-2">Email address</label>
-          <input id="email-2" name="email" type="email" placeholder="Enter your email" autocomplete="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address, like name@example.com" required />
-          <button type="submit">Subscribe</button>
-          <p class="form-status" aria-live="polite"></p>
-        </form>
+        <h2>A different kind of relationship with your physician.</h2>
+        <p>Start a conversation about care for you and your family.</p>
+        <a class="button-primary" href="onboarding.html">Inquire About Membership</a>
       </div>
     </section>
   </main>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Begin your Anchor Point membership inquiry with contact details and household preferences." />
-  <title>Begin onboarding — Anchor Point Medicine</title>
+  <meta name="description" content="Inquire about Anchor Point Medicine membership in Bethesda and arrange an introductory conversation." />
+  <title>Inquire About Membership — Anchor Point Medicine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -18,32 +18,25 @@
     <section class="editorial-section">
       <div class="container onboarding-layout">
         <div class="editorial-copy">
-          <p class="eyebrow">Begin onboarding</p>
+          <p class="eyebrow">Inquire About Membership</p>
           <h1>Let’s start with<br><em>a conversation.</em></h1>
-          <p>Tell us how to reach you and which membership you’re considering. This is an introductory inquiry, not an enrollment agreement or a payment.</p>
+          <p>Tell us how to reach you. This is an introductory inquiry, not an enrollment agreement or a payment.</p>
           <a class="editorial-link" href="index.html#membership">Review membership options <span aria-hidden="true">↗</span></a>
           <div class="editorial-note"><h2>What comes next</h2><p>An introductory conversation gives you space to ask questions and review the right membership for your household before enrolling.</p></div>
           <figure class="page-editorial-image page-editorial-image--inset"><img src="img/anchorpoint-books.png" width="1254" height="1254" alt="A stethoscope resting on clothbound books" loading="lazy" decoding="async" /></figure>
         </div>
         <div>
           <form id="onboarding-form" class="onboarding-form">
-            <p class="onboarding-notice" id="onboarding-notice">Online submission is not available yet. You can complete and review your details below; nothing will be sent.</p>
+            <p class="onboarding-notice" id="onboarding-notice">Online submission is not available yet. You can complete and review your details below; nothing will be sent. To inquire now, call <a href="tel:+13018952626">(301) 895-2626</a> or email <a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a>.</p>
             <fieldset>
               <legend>Your contact details</legend>
-              <p class="field-hint">Fields marked * are required.</p>
+              <p class="field-hint">Fields marked * are required. Please do not submit medical histories with your inquiry.</p>
               <div class="onboarding-fields">
                 <div><label for="first-name">First name *</label><input id="first-name" name="firstName" autocomplete="given-name" required maxlength="100" /></div>
                 <div><label for="last-name">Last name *</label><input id="last-name" name="lastName" autocomplete="family-name" required maxlength="100" /></div>
                 <div class="field-wide"><label for="onboarding-email">Email address *</label><input id="onboarding-email" name="email" type="email" autocomplete="email" required maxlength="254" /></div>
                 <div><label for="phone">Phone <span>(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" /></div>
                 <div><label for="contact-method">Preferred contact</label><select id="contact-method" name="contactMethod"><option value="Email">Email</option><option value="Phone">Phone</option></select></div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>Your membership interests</legend>
-              <div class="onboarding-fields">
-                <div class="field-wide"><label for="membership-choice">Membership *</label><select id="membership-choice" name="membership" required><option value="">Select an option</option><option value="Individual">Individual</option><option value="Family">Family</option><option value="Individual with household additions">Individual with household additions</option><option value="Help me choose">Help me choose</option></select></div>
-                <div class="field-wide"><label for="inquiry-note">Questions or a good time to connect <span>(optional)</span></label><textarea id="inquiry-note" name="note" rows="4" maxlength="2000" aria-describedby="note-hint"></textarea><p id="note-hint" class="field-hint">Please keep this to general membership questions; medical history can be discussed directly with the practice.</p></div>
               </div>
             </fieldset>
             <button class="onboarding-button" type="submit" aria-describedby="onboarding-notice" disabled>Review details</button>
