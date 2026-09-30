@@ -206,28 +206,32 @@ function initRevealAnimations() {
   }
 }
 
-function initAboutParallax() {
-  const wrap = document.querySelector('.editorial-pair--about .editorial-image');
+function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = false) {
+  const wrap = document.querySelector(selector);
   const img = wrap?.querySelector('img');
   if (!wrap || !img) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const desktop = window.matchMedia('(min-width: 901px)');
-  img.classList.add('parallax-img');
+  const target = moveFrame ? wrap : img;
+  target.classList.add('parallax-img');
+  let previousOffset = 0;
   let frame = 0;
 
   function update() {
     frame = 0;
     if (!desktop.matches) {
-      img.style.transform = '';
+      target.style.transform = '';
+      previousOffset = 0;
       return;
     }
     const rect = wrap.getBoundingClientRect();
-    const elementCenter = rect.top + rect.height / 2;
+    const elementCenter = rect.top + rect.height / 2 - (moveFrame ? previousOffset : 0);
     const viewportCenter = window.innerHeight / 2;
     // image trails the section's own scroll motion so it reads as slower and higher
-    const offset = Math.max(-45, Math.min(45, (viewportCenter - elementCenter) * 0.12));
-    img.style.transform = `translateY(${offset}px)`;
+    const offset = Math.max(-maxOffset, Math.min(maxOffset, (viewportCenter - elementCenter) * speed));
+    target.style.transform = `translateY(${offset}px)`;
+    previousOffset = offset;
   }
 
   function scheduleUpdate() {
@@ -365,7 +369,8 @@ async function initPage() {
   initNavIndicator();
   initScrollingLogo();
   initRevealAnimations();
-  initAboutParallax();
+  initImageParallax('.editorial-pair--about .editorial-image');
+  initImageParallax('.family-care-photo', 45, -0.12, true);
   initSignupForms();
   initOnboardingForm();
   initFooterUtilities();
