@@ -743,7 +743,8 @@ p + .editorial-link { margin-top: 22px; }
 .social-placeholder { opacity: .72; }
 .footer-links .icon-link, .footer-contact { display: flex; align-items: center; gap: 14px; }
 .icon-link .bi, .footer-contact .bi { flex: 0 0 auto; color: var(--copper); font-size: 1rem; line-height: 1; }
-.footer-contact { margin-top: 14px; }
+.footer-contact { margin-top: 14px; align-items: flex-start; }
+.footer-contact .bi { margin-top: .3em; }
 @media (max-width: 900px) {
   .page-hero-grid, .split-callout, .footer-main { grid-template-columns:1fr; }
   .plan-grid, .membership-details, .services-grid { grid-template-columns:1fr; }

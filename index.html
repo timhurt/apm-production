@@ -29,7 +29,7 @@
       "email": "info@anchorpoint.med",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "5555 W Cedar Ln.",
+        "streetAddress": "5411 W Cedar Lane",
         "addressLocality": "Bethesda",
         "addressRegion": "MD",
         "addressCountry": "US"
@@ -45,7 +45,7 @@
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "5555 W Cedar Ln.",
+        "streetAddress": "5411 W Cedar Lane",
         "addressLocality": "Bethesda",
         "addressRegion": "MD",
         "addressCountry": "US"
@@ -68,7 +68,9 @@
           <img class="hero-logo" src="img/anchorpoint-logo-lg.svg" width="2387" height="576" alt="Anchor Point Medicine" />
           <h1>Concierge medicine from a physician you know and trust.</h1>
           <p class="lede">Membership-based primary care for individuals and families in Bethesda, with longer visits, direct physician access, and a deliberately small practice.</p>
-          <form class="signup-form" id="signup" novalidate>
+          <form class="signup-form" id="signup" novalidate name="email-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="email-signup" />
+            <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
             <label class="sr-only" for="email">Email address</label>
             <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address, like name@example.com" required />
             <button type="submit">Reserve Spot</button>

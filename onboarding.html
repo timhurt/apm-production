@@ -26,8 +26,10 @@
           <figure class="page-editorial-image page-editorial-image--inset"><img src="img/anchorpoint-books.png" width="1254" height="1254" alt="A stethoscope resting on clothbound books" loading="lazy" decoding="async" /></figure>
         </div>
         <div>
-          <form id="onboarding-form" class="onboarding-form">
-            <p class="onboarding-notice" id="onboarding-notice">Online submission is not available yet. You can complete and review your details below; nothing will be sent. To inquire now, call <a href="tel:+13018952626">(301) 895-2626</a> or email <a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a>.</p>
+          <form id="onboarding-form" class="onboarding-form" name="membership-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="membership-inquiry" />
+            <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
+            <p class="onboarding-notice" id="onboarding-notice">Send your contact details to inquire about membership. You can also call <a href="tel:+13018952626">(301) 895-2626</a> or email <a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a>.</p>
             <fieldset>
               <legend>Your contact details</legend>
               <p class="field-hint">Fields marked * are required. Please do not submit medical histories with your inquiry.</p>
@@ -39,15 +41,9 @@
                 <div><label for="contact-method">Preferred contact</label><select id="contact-method" name="contactMethod"><option value="Email">Email</option><option value="Phone">Phone</option></select></div>
               </div>
             </fieldset>
-            <button class="onboarding-button" type="submit" aria-describedby="onboarding-notice" disabled>Review details</button>
-            <noscript><p>Please enable JavaScript to review this form.</p></noscript>
+            <button class="onboarding-button" type="submit" aria-describedby="onboarding-notice">Send Inquiry</button>
+            <p class="form-status" aria-live="polite"></p>
           </form>
-          <section id="onboarding-review" class="onboarding-review" hidden aria-labelledby="review-heading">
-            <h2 id="review-heading" tabindex="-1">Review your details</h2>
-            <p>Your details have not been sent. Online submission is not available yet.</p>
-            <dl id="onboarding-summary"></dl>
-            <button class="onboarding-button" id="edit-onboarding" type="button">Edit details</button>
-          </section>
         </div>
       </div>
     </section>

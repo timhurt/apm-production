@@ -244,29 +244,54 @@ function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = f
   update();
 }
 
+async function submitNetlifyForm(form, successMessage) {
+  if (form.dataset.submitting === 'true') return;
+  const button = form.querySelector('button[type="submit"]');
+  const status = form.querySelector('.form-status');
+  const label = button.textContent;
+  form.dataset.submitting = 'true';
+  button.disabled = true;
+  button.textContent = 'Sending…';
+  status.classList.remove('is-error', 'is-success');
+  status.textContent = 'Sending your details…';
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    });
+    if (!response.ok) throw new Error('Submission failed');
+    status.textContent = successMessage;
+    status.classList.add('is-success');
+    form.reset();
+    form.dispatchEvent(new Event('change'));
+  } catch {
+    status.textContent = 'We couldn’t send your details. Please try again or contact info@anchorpoint.med.';
+    status.classList.add('is-error');
+  } finally {
+    button.disabled = false;
+    button.textContent = label;
+    delete form.dataset.submitting;
+  }
+}
+
 function initSignupForms() {
   document.querySelectorAll('.signup-form').forEach(form => {
     form.addEventListener('submit', event => {
       event.preventDefault();
       const input = form.querySelector('input[type="email"]');
       const status = form.querySelector('.form-status');
-      const email = input.value.trim();
-
-      input.value = email;
+      input.value = input.value.trim();
       status.classList.remove('is-error', 'is-success');
-
-      if (!email || !input.validity.valid || !emailPattern.test(email)) {
+      if (!input.validity.valid || !emailPattern.test(input.value)) {
         status.textContent = 'Please enter a valid email address.';
         status.classList.add('is-error');
         input.setAttribute('aria-invalid', 'true');
         input.focus();
         return;
       }
-
       input.removeAttribute('aria-invalid');
-      status.textContent = 'Thanks — you’re on the list.';
-      status.classList.add('is-success');
-      form.reset();
+      submitNetlifyForm(form, 'Thank you — your interest has been received.');
     });
   });
 }
@@ -276,37 +301,17 @@ function initOnboardingForm() {
   if (!form) return;
   const phone = form.elements.phone;
   const method = form.elements.contactMethod;
-  const review = document.querySelector('#onboarding-review');
-  const summary = document.querySelector('#onboarding-summary');
-  form.querySelector('button[type="submit"]').disabled = false;
   function updatePhoneRequirement() {
     phone.required = method.value === 'Phone';
     form.querySelector('label[for="phone"]').textContent = phone.required ? 'Phone *' : 'Phone (optional)';
   }
-  method.addEventListener('change', updatePhoneRequirement);
+  form.addEventListener('change', updatePhoneRequirement);
   updatePhoneRequirement();
   form.addEventListener('submit', event => {
     event.preventDefault();
     for (const field of form.querySelectorAll('input, textarea')) field.value = field.value.trim();
     if (!form.reportValidity()) return;
-    summary.replaceChildren();
-    const labels = { firstName: 'First name', lastName: 'Last name', email: 'Email', phone: 'Phone', contactMethod: 'Preferred contact', membership: 'Membership', note: 'Questions / availability' };
-    for (const [name, value] of new FormData(form)) {
-      if (!value) continue;
-      const term = document.createElement('dt');
-      const detail = document.createElement('dd');
-      term.textContent = labels[name];
-      detail.textContent = value;
-      summary.append(term, detail);
-    }
-    form.hidden = true;
-    review.hidden = false;
-    document.querySelector('#review-heading').focus();
-  });
-  document.querySelector('#edit-onboarding').addEventListener('click', () => {
-    review.hidden = true;
-    form.hidden = false;
-    form.elements.firstName.focus();
+    submitNetlifyForm(form, 'Thank you for your interest in Anchor Point. We’ll contact you to discuss membership.');
   });
 }
 
