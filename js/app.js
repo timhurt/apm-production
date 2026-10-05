@@ -17,6 +17,25 @@ function setActiveNavLink() {
 function initNav() {
   const menuToggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.site-nav');
+  if (!nav || !menuToggle) return;
+  nav.classList.add('is-enhanced');
+  const mobile = window.matchMedia('(max-width: 900px)');
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+  nav.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mobile.matches && nav.classList.contains('is-open')) {
+      closeMenu();
+      menuToggle.focus();
+    }
+  });
+  nav.addEventListener('focusout', () => {
+    requestAnimationFrame(() => {
+      if (!nav.contains(document.activeElement) && document.activeElement !== menuToggle) closeMenu();
+    });
+  });
+  mobile.addEventListener('change', closeMenu);
 
   if (document.body.dataset.page === 'home') {
     nav?.querySelectorAll('a[href*="#"]').forEach(link => {
@@ -136,7 +155,7 @@ function initScrollingLogo() {
 
   function update() {
     frame = 0;
-    if (mobile.matches) {
+    if (mobile.matches || reduceMotion.matches) {
       document.body.classList.remove('logo-scroll-active');
       header.classList.add('is-logo-docked');
       source.style.visibility = '';
@@ -187,6 +206,10 @@ function initRevealAnimations() {
     document.querySelectorAll('.editorial-services li.reveal').forEach((el, index) => {
       el.style.setProperty('--reveal-index', index % 3);
     });
+    document.querySelectorAll('.editorial-benefits li.reveal').forEach((el, index) => {
+      el.style.setProperty('--reveal-y', '20px');
+      el.style.setProperty('--reveal-index', index);
+    });
     if (!reduceMotion) document.body.classList.add('home-entrance');
   }
 
@@ -200,7 +223,14 @@ function initRevealAnimations() {
       });
     }, { threshold: 0.14 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('reveal-ready');
+      observer.observe(el);
+      el.addEventListener('focusin', () => {
+        el.classList.add('is-visible');
+        observer.unobserve(el);
+      });
+    });
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
   }
@@ -210,7 +240,7 @@ function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = f
   const wrap = document.querySelector(selector);
   const img = wrap?.querySelector('img');
   if (!wrap || !img) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const desktop = window.matchMedia('(min-width: 901px)');
   const target = moveFrame ? wrap : img;
@@ -220,7 +250,7 @@ function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = f
 
   function update() {
     frame = 0;
-    if (!desktop.matches) {
+    if (!desktop.matches || reduceMotion.matches) {
       target.style.transform = '';
       previousOffset = 0;
       return;
@@ -241,6 +271,7 @@ function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = f
   window.addEventListener('scroll', scheduleUpdate, { passive: true });
   window.addEventListener('resize', scheduleUpdate);
   desktop.addEventListener('change', scheduleUpdate);
+  reduceMotion.addEventListener('change', scheduleUpdate);
   update();
 }
 
@@ -265,6 +296,7 @@ async function submitNetlifyForm(form, successMessage) {
     status.classList.add('is-success');
     form.reset();
     form.dispatchEvent(new Event('change'));
+    window.location.assign(form.action);
   } catch {
     status.textContent = 'We couldn’t send your details. Please try again or contact info@anchorpoint.med.';
     status.classList.add('is-error');
@@ -277,6 +309,7 @@ async function submitNetlifyForm(form, successMessage) {
 
 function initSignupForms() {
   document.querySelectorAll('.signup-form').forEach(form => {
+    form.noValidate = true;
     form.addEventListener('submit', event => {
       event.preventDefault();
       const input = form.querySelector('input[type="email"]');
@@ -299,18 +332,48 @@ function initSignupForms() {
 function initOnboardingForm() {
   const form = document.querySelector('#onboarding-form');
   if (!form) return;
+  form.noValidate = true;
+  const fields = [...form.querySelectorAll('input:not([type="hidden"]):not([name="bot-field"]), select')];
+  function showError(field) {
+    const error = document.getElementById(`${field.id}-error`);
+    const invalid = !field.validity.valid;
+    field.setAttribute('aria-invalid', String(invalid));
+    error.textContent = invalid ? (field.validity.valueMissing ? 'Please complete this field.' : 'Please enter a valid email address, such as name@example.com.') : '';
+    error.hidden = !invalid;
+    return invalid;
+  }
+  fields.forEach(field => {
+    const error = document.createElement('p');
+    error.id = `${field.id}-error`;
+    error.className = 'field-error';
+    error.hidden = true;
+    field.after(error);
+    field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'), error.id].filter(Boolean).join(' '));
+    field.addEventListener('input', () => {
+      if (field.getAttribute('aria-invalid') === 'true') showError(field);
+    });
+  });
   const phone = form.elements.phone;
   const method = form.elements.contactMethod;
   function updatePhoneRequirement() {
     phone.required = method.value === 'Phone';
     form.querySelector('label[for="phone"]').textContent = phone.required ? 'Phone *' : 'Phone (optional)';
+    if (phone.getAttribute('aria-invalid') === 'true') showError(phone);
   }
   form.addEventListener('change', updatePhoneRequirement);
   updatePhoneRequirement();
   form.addEventListener('submit', event => {
     event.preventDefault();
     for (const field of form.querySelectorAll('input, textarea')) field.value = field.value.trim();
-    if (!form.reportValidity()) return;
+    const invalidFields = fields.filter(showError);
+    if (invalidFields.length) {
+      const status = form.querySelector('.form-status');
+      status.textContent = `Please correct ${invalidFields.length} highlighted field${invalidFields.length === 1 ? '' : 's'}.`;
+      status.classList.remove('is-success');
+      status.classList.add('is-error');
+      invalidFields[0].focus();
+      return;
+    }
     submitNetlifyForm(form, 'Thank you for your interest in Anchor Point. We’ll contact you to discuss membership.');
   });
 }
@@ -374,7 +437,6 @@ async function initPage() {
   initNavIndicator();
   initScrollingLogo();
   initRevealAnimations();
-  initImageParallax('.editorial-pair--about .editorial-image');
   initImageParallax('.family-care-photo', 45, -0.12, true);
   initSignupForms();
   initOnboardingForm();

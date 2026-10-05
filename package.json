@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "description": "Anchor Point static site with local compile step",
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "axe-core": "^4.13.0",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.0.1",
     "live-server": "^1.2.2"
@@ -14,6 +16,7 @@
     "watch": "chokidar \"*.html\" \"css/**/*\" \"js/**/*\" \"img/**/*\" \"partials/**/*\" -i \"dist/**\" --initial -c \"npm run build\"",
     "dev": "concurrently -k -n WATCH,SERVER -c yellow,cyan \"npm:watch\" \"npm:serve:dist\"",
     "clean": "rm -rf dist",
-    "preview": "python3 -m http.server 8080 --directory dist"
+    "preview": "python3 -m http.server 8080 --directory dist",
+    "test:a11y": "npm run build && playwright test"
   }
 }

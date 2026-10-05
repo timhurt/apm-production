@@ -5,3 +5,7 @@ dist/
 
 # Local Netlify folder
 .netlify
+
+# Browser test artifacts
+test-results/
+playwright-report/

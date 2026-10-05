@@ -57,35 +57,37 @@
   </script>
 </head>
 <body data-page="home">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div id="site-header"></div>
 
-  <main id="main-content">
+  <main tabindex="-1" id="main-content">
     <span id="top" aria-hidden="true"></span>
     <section class="hero section-pad">
       <div class="container hero-grid">
         <div class="hero-copy">
           <img class="hero-logo" src="img/anchorpoint-logo-lg.svg" width="2387" height="576" alt="Anchor Point Medicine" />
-          <h1>Concierge medicine from a physician you know and trust.</h1>
-          <p class="lede">Membership-based primary care for individuals and families in Bethesda, with longer visits, direct physician access, and a deliberately small practice.</p>
-          <form class="signup-form" id="signup" novalidate name="email-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <h1>Primary care you can trust.</h1>
+          <p class="lede">A new kind of private concierge care, with direct access to your doctor and unhurried visits.</p>
+          <form class="signup-form" id="signup" name="email-signup" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="email-signup" />
             <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
-            <label class="sr-only" for="email">Email address</label>
-            <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address, like name@example.com" required />
-            <button type="submit">Reserve Spot</button>
-            <p class="form-status" aria-live="polite"></p>
+            <label class="sr-only" for="email">Your Email</label>
+            <input id="email" aria-describedby="signup-status" name="email" type="email" placeholder="Your Email" autocomplete="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address, like name@example.com" required />
+            <button type="submit">Reserve My Spot</button>
+            <p id="signup-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
           </form>
+          <div class="social-proof">
+            <p>First 75 patients receive <strong>10% off</strong> with continuous enrollment.</p>
+          </div>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Portrait of Matthew V. Speicher, DO, MBA">
+        <div class="hero-visual reveal">
           <div class="image-placeholder image-placeholder--hero">
-            <img src="img/Anchorpoint-Dr-Matt-Speicher.JPG" alt="Matthew V. Speicher, DO, MBA" />
+            <img src="img/Anchorpoint-Dr-Matt-Speicher.jpg" alt="Matthew V. Speicher, DO, MBA" />
           </div>
           <div class="hero-caption">
-            <p class="hero-caption-name"><a href="about.html">Meet Dr. Matthew V. Speicher, DO, MBA <span aria-hidden="true">↗</span></a></p>
-            <p>Fmr. White House Physician &amp; Chief of Emergency Medicine, Walter Reed.<br/>
-              Ret. U.S. Navy Commander &amp; Board-Certified Emergency Physician.</p>
+            <p class="hero-caption-name"><a href="about.html" style="text-decoration: none; color: inherit;">Matthew V. Speicher, DO, MBA</a></p>
           </div>
         </div>
       </div>
@@ -94,42 +96,48 @@
     <section id="why" class="editorial-section" aria-labelledby="about-heading">
       <div class="container editorial-pair editorial-pair--about">
         <figure class="editorial-image reveal">
-          <img src="img/anchorpoint-helix.png" width="1672" height="1317" alt="About Anchor Point Medicine" loading="lazy" decoding="async" />
+          <img src="img/anchorpoint-tomcat.jpg" width="1536" height="1024" alt="A Tomcat aircraft sculpture on a stone pedestal" loading="lazy" decoding="async" />
         </figure>
         <div class="editorial-copy reveal">
-          <p class="eyebrow">About Anchor Point</p>
-          <h2 id="about-heading">A trusted physician is <br>a point of <em>continuity.</em></h2>
+          <p class="eyebrow">Setting Course</p>
+          <h2 id="about-heading">The mission that began before primary care.</h2>
           <p>
-            I founded Anchor Point on the belief that medical care begins with knowing you well before you need it.
-            My approach was shaped by a career as a Navy commander, emergency physician, department chief at Walter Reed, and White House physician. Across each role, medicine came down to trust, sound judgment, and personal responsibility.
-            In Naval Aviation, “Doc” is the physician you know personally—the person you call when something happens. I created Anchor Point to bring that same trust and continuity to individuals and families in Bethesda, keeping the practice small so I can know you, understand your household, and remain accessible when it matters most: always.
-            When something important happens, you should know exactly who to call.
+            I founded Anchor Point on the belief that great medical care begins with knowing you well before you need it. Intentionally small means more room for patient conversations and careful planning. My career as a Navy Commander, emergency physician, Department Chief at Walter Reed, and White House Physician taught me that medicine comes down to trust, sound judgment, and personal responsibility. In Naval Aviation, “Doc” is the physician you know and call when something happens. Anchor Point aims to bring that same relationship to individuals and families in Bethesda by keeping the practice small, personal, and accessible, so when something important happens, you know exactly who to call. Welcome aboard.
           </p>
-          <a class="editorial-link" href="about.html">Meet Dr. Speicher <span aria-hidden="true">↗</span></a>
+          <figure class="founder-signature">
+            <img src="img/ms-signature.png" width="1022" height="248" alt="" loading="lazy" decoding="async" />
+            <figcaption>
+              Matthew V. Speicher, DO, MBA
+              <span class="founder-credentials">Fmr. White House Physician &amp; Chief of Emergency Medicine, Walter Reed<br>
+              Ret. U.S. Navy Commander &amp; Board-Certified Emergency Physician</span>
+            </figcaption>
+          </figure>
+          <!-- <a class="editorial-link" href="about.html">Meet Dr. Speicher <span aria-hidden="true">↗</span></a> -->
           <div class="editorial-note">
-            <h3>How we're different</h3>
-            <p>Visits are not billed to insurance, and a member-based model keeps the practice small for more personal, proactive care.</p>
-            <a class="editorial-link" href="about.html">Learn more <span aria-hidden="true">↗</span></a>
+            <h3>Now open to new patients and families.</h3>
+            <a class="editorial-link" href="about.html">Inquire about membership <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
     </section>
 
     <section class="editorial-section" aria-labelledby="benefits-heading">
-      <div class="container">
-        <div class="editorial-copy"><p class="eyebrow">Why Anchor Point</p><h2 id="benefits-heading">A closer physician <em>relationship.</em></h2></div>
-        <ul class="editorial-benefits" role="list">
-          <li><h3>Clarity when something happens</h3><p>A new symptom, abnormal test, sick child, or urgent question can feel overwhelming. Direct access to your physician helps you understand what needs attention now and what can wait.</p></li>
-          <li><h3>A doctor who already knows you</h3><p>Your physician gets to know your history, family, priorities, and baseline before a concern becomes urgent.</p></li>
-          <li><h3>Time to think, not just react</h3><p>Longer, unhurried visits make room for careful conversations about prevention, chronic concerns, test results, medications, and long-term health.</p></li>
-          <li><h3>Care for the whole family</h3><p>Adults and children are welcome, giving families a trusted medical home and one physician who understands the household.</p></li>
-          <li><h3>No insurance billing or copays</h3><p>Included membership services are provided outside the insurance billing model, for a simpler, more direct experience without copays for included visits.</p></li>
-          <li><h3>Help navigating the system</h3><p>From specialists and imaging to hospital care and second opinions, Anchor Point helps you understand your options and coordinate the next steps.</p></li>
-        </ul>
+      <div class="container annual-care-layout">
+        <div class="editorial-copy">
+          <h2 id="benefits-heading">Personal and <em>proactive</em>.</h2>
+          <p>Members receive a yearly <strong>Comprehensive Health Review</strong> covering history, risks, screenings, medications, fitness priorities and goals. Dr. Speicher creates a <strong>personalized plan</strong> with ongoing attention to results and prevention.</p>
+          <a class="editorial-link" href="services.html">Explore all services <span aria-hidden="true">↗</span></a>
+        </div>
+        <ol class="editorial-benefits" role="list">
+          <li class="reveal"><span class="benefit-number" aria-hidden="true">01</span><div><h3>Annual Review</h3><p>A comprehensive, unhurried review of current health, risk, prevention, and personal goals.</p></div></li>
+          <li class="reveal"><span class="benefit-number" aria-hidden="true">02</span><div><h3>Personal Plan</h3><p>A clear set of priorities for testing, prevention, fitness, lifestyle, and follow-up during the year.</p></div></li>
+          <li class="reveal"><span class="benefit-number" aria-hidden="true">03</span><div><h3>Progress Report</h3><p>A planned midyear visit after six months to reassess progress, results, priorities, and next steps.</p></div></li>
+          <li class="reveal"><span class="benefit-number" aria-hidden="true">04</span><div><h3>Longitudinal Care</h3><p>Ongoing attention to results, specialist referrals, preventive care, and changing health needs.</p></div></li>
+        </ol>
       </div>
     </section>
 
-    <section id="features" class="editorial-section" aria-labelledby="services-heading">
+    <!-- <section id="features" class="editorial-section" aria-labelledby="services-heading">
       <div class="container">
         <div class="editorial-services-intro editorial-copy reveal">
           <div>
@@ -165,9 +173,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section id="membership" class="editorial-section" aria-labelledby="membership-heading">
+    <!-- <section id="membership" class="editorial-section" aria-labelledby="membership-heading">
       <div class="container editorial-membership-layout">
         <div class="editorial-copy reveal">
           <p class="eyebrow">Membership</p>
@@ -191,7 +199,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- <p class="editorial-citation">Keep health insurance for care outside Anchor Point. See <a href="membership.html#household-rates">additional household rates</a>.</p> -->
           <div class="membership-cta-row">
             <a class="button-primary" href="onboarding.html">Apply Today</a>
             <a class="button-outline" href="membership.html">More Details</a>
@@ -202,17 +209,17 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="office-gallery reveal" aria-label="Inside the Anchor Point office">
       <div class="container office-gallery-grid">
         <figure class="office-gallery-frame">
           <img src="img/anchorpoint-office.png" width="1536" height="1024" alt="Anchor Point Medicine consultation office" loading="lazy" decoding="async" />
-          <figcaption class="office-gallery-caption">The office</figcaption>
+          <figcaption class="office-gallery-caption">Office</figcaption>
         </figure>
         <figure class="office-gallery-frame">
           <img src="img/anchorpoint-exam.png" width="1254" height="1254" alt="Anchor Point Medicine exam room" loading="lazy" decoding="async" />
-          <figcaption class="office-gallery-caption">The exam room</figcaption>
+          <figcaption class="office-gallery-caption">Exam room</figcaption>
         </figure>
       </div>
     </section>
@@ -221,22 +228,40 @@
       <div class="container editorial-faq">
         <div class="editorial-copy reveal">
           <p class="eyebrow">FAQ</p>
-          <h2 id="faq-heading">Before we begin.</h2>
-          <a class="editorial-link" href="faq.html">More questions <span aria-hidden="true">↗</span></a>
+          <h2 id="faq-heading">Good-to-knows.</h2>
+          <a class="editorial-link" href="faq.html">See all FAQs <span aria-hidden="true">↗</span></a>
         </div>
         <div class="faq-list reveal">
-          <details class="faq-item"><summary>Do I still need health insurance?</summary><div><p>Yes. Keep coverage for specialists, hospital care, medications, and other services outside membership.</p></div></details>
-          <details class="faq-item"><summary>Do you care for children?</summary><div><p>Yes. Adults and children are welcome.</p></div></details>
+          <details class="faq-item"><summary>Do I still need health insurance?</summary><div><p>Yes. Membership does not replace health insurance. Keep coverage for specialists, hospital care, medications, and other services. We provide transparent rates with no copays for included visits.</p></div></details>
+          <details class="faq-item"><summary>Do you care for children?</summary><div><p>Yes. Adults and children are welcome. You get one physician who understands the household, and who can help when a concern affects not just one chart, but a spouse, child, parent, and the rest of the family around them.</p></div></details>
           <details class="faq-item"><summary>What does membership include?</summary><div><p>Primary and preventive care, same- or next-day appointments, direct physician access, selected office procedures, and care coordination. <a href="membership.html">Explore membership details.</a></p></div></details>
         </div>
       </div>
     </section>
 
-    <section class="section-pad final-cta">
-      <div class="container cta-panel reveal">
-        <h2>A different kind of relationship with your physician.</h2>
-        <p>Start a conversation about care for you and your family.</p>
-        <a class="button-primary" href="onboarding.html">Inquire About Membership</a>
+    <section class="editorial-section testimonials-section" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <!-- Replace these clearly marked placeholders with approved testimonials before publishing. -->
+        <div class="testimonials-grid">
+          <figure class="testimonial reveal">
+            <span class="testimonial-mark" aria-hidden="true">“</span>
+            <blockquote><p>[Approved testimonial quote goes here.]</p></blockquote>
+            <figcaption>[Name or approved attribution]</figcaption>
+          </figure>
+          <figure class="testimonial reveal">
+            <span class="testimonial-mark" aria-hidden="true">“</span>
+            <blockquote><p>[Approved testimonial quote goes here.]</p></blockquote>
+            <figcaption>[Name or approved attribution]</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad final-cta" aria-labelledby="inquiry-cta-heading">
+      <div class="container cta-panel cta-panel--wide reveal">
+        <h2 id="inquiry-cta-heading">Care starts at conversation.</h2>
+        <p>Interested to become a member? Reach out and Dr. Speicher will follow up to discuss whether Anchor Point might be a good fit for you and your family.</p>
+        <a class="button-primary" href="onboarding.html">Request Membership</a>
       </div>
     </section>
   </main>
