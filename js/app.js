@@ -58,10 +58,11 @@ function initNav() {
 
 function initNavIndicator() {
   const nav = document.querySelector('.site-nav');
-  let active = nav?.querySelector('[aria-current="page"]');
-  if (!active) return;
+  const active = nav?.querySelector('a:not(.nav-cta)[aria-current="page"]');
+  if (!nav) return;
 
-  const links = [...nav.querySelectorAll('a[data-page]')];
+  const links = [...nav.querySelectorAll('a:not(.nav-cta)')];
+  const mobile = window.matchMedia('(max-width: 900px)');
   const indicator = document.createElement('span');
   indicator.className = 'nav-indicator';
   indicator.setAttribute('aria-hidden', 'true');
@@ -70,6 +71,10 @@ function initNavIndicator() {
 
   function place(link) {
     selected = link;
+    if (!link) {
+      indicator.style.opacity = '0';
+      return;
+    }
     if (!nav.getClientRects().length) return;
     // Measure the label, including when mobile links span the whole menu.
     const range = document.createRange();
@@ -77,7 +82,11 @@ function initNavIndicator() {
     const label = range.getBoundingClientRect();
     const bounds = nav.getBoundingClientRect();
     indicator.style.width = `${label.width}px`;
-    indicator.style.transform = `translate(${label.left - bounds.left - nav.clientLeft}px, ${label.bottom - bounds.top - nav.clientTop + 4}px)`;
+    // Only horizontal movement animates; vertical placement never transitions.
+    indicator.style.top = mobile.matches
+      ? `${label.bottom - bounds.top - nav.clientTop + 4}px`
+      : '';
+    indicator.style.transform = `translateX(${label.left - bounds.left - nav.clientLeft}px)`;
     indicator.style.opacity = '1';
   }
 
@@ -93,44 +102,12 @@ function initNavIndicator() {
   nav.addEventListener('focusout', () => requestAnimationFrame(restore));
   nav.querySelector('.nav-cta')?.addEventListener('pointerenter', restore);
 
-  // Carry the previous tab across page loads without delaying navigation.
-  let previous;
-  try {
-    previous = sessionStorage.getItem('anchorpoint-nav-page');
-    sessionStorage.setItem('anchorpoint-nav-page', active.dataset.page);
-  } catch { /* Navigation works when browser storage is unavailable. */ }
-  place(links.find(link => link.dataset.page === previous) || active);
-  requestAnimationFrame(() => {
-    nav.classList.add('has-sliding-indicator');
-    requestAnimationFrame(() => place(active));
-  });
+  // Position before enabling transitions, with no cross-page animation replay.
+  place(active);
+  requestAnimationFrame(() => nav.classList.add('has-sliding-indicator'));
   new ResizeObserver(() => place(selected)).observe(nav);
   document.fonts.ready.then(() => place(selected));
 
-  if (document.body.dataset.page === 'home') {
-    const sections = links.map(link => ({ link, section: document.getElementById(link.dataset.section) })).filter(item => item.section);
-    let pending = false;
-    function syncSection() {
-      pending = false;
-      const threshold = document.querySelector('.site-header').getBoundingClientRect().height + 100;
-      let current = sections[0]?.link;
-      for (const item of sections) {
-        if (item.section.getBoundingClientRect().top <= threshold) current = item.link;
-      }
-      if (!current) return;
-      links.forEach(link => link.removeAttribute('aria-current'));
-      current.setAttribute('aria-current', 'location');
-      active = current;
-      place(active);
-    }
-    function scheduleSection() {
-      if (!pending) { pending = true; requestAnimationFrame(syncSection); }
-    }
-    window.addEventListener('scroll', scheduleSection, { passive: true });
-    window.addEventListener('resize', scheduleSection);
-    window.addEventListener('hashchange', scheduleSection);
-    scheduleSection();
-  }
 }
 
 function initScrollingLogo() {
@@ -197,14 +174,10 @@ function initScrollingLogo() {
 function initRevealAnimations() {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (document.body.dataset.page === 'home') {
-    document.querySelectorAll('.reveal').forEach(el => {
-      const bounds = el.getBoundingClientRect();
+    const revealPositions = [...document.querySelectorAll('.reveal')].map(el => ({ el, bounds: el.getBoundingClientRect() }));
+    revealPositions.forEach(({ el, bounds }) => {
       const isLeft = el.closest('.hero-copy') || bounds.left + bounds.width / 2 < window.innerWidth / 2;
       el.style.setProperty('--reveal-y', el.classList.contains('hero-visual') ? '24px' : (isLeft ? '-10px' : '10px'));
-    });
-    // stagger each row's items (3-up grid on desktop) so they appear in sequence as the row scrolls into view
-    document.querySelectorAll('.editorial-services li.reveal').forEach((el, index) => {
-      el.style.setProperty('--reveal-index', index % 3);
     });
     document.querySelectorAll('.editorial-benefits li.reveal').forEach((el, index) => {
       el.style.setProperty('--reveal-y', '20px');
@@ -234,45 +207,6 @@ function initRevealAnimations() {
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
   }
-}
-
-function initImageParallax(selector, maxOffset = 45, speed = 0.12, moveFrame = false) {
-  const wrap = document.querySelector(selector);
-  const img = wrap?.querySelector('img');
-  if (!wrap || !img) return;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  const desktop = window.matchMedia('(min-width: 901px)');
-  const target = moveFrame ? wrap : img;
-  target.classList.add('parallax-img');
-  let previousOffset = 0;
-  let frame = 0;
-
-  function update() {
-    frame = 0;
-    if (!desktop.matches || reduceMotion.matches) {
-      target.style.transform = '';
-      previousOffset = 0;
-      return;
-    }
-    const rect = wrap.getBoundingClientRect();
-    const elementCenter = rect.top + rect.height / 2 - (moveFrame ? previousOffset : 0);
-    const viewportCenter = window.innerHeight / 2;
-    // image trails the section's own scroll motion so it reads as slower and higher
-    const offset = Math.max(-maxOffset, Math.min(maxOffset, (viewportCenter - elementCenter) * speed));
-    target.style.transform = `translateY(${offset}px)`;
-    previousOffset = offset;
-  }
-
-  function scheduleUpdate() {
-    if (!frame) frame = requestAnimationFrame(update);
-  }
-
-  window.addEventListener('scroll', scheduleUpdate, { passive: true });
-  window.addEventListener('resize', scheduleUpdate);
-  desktop.addEventListener('change', scheduleUpdate);
-  reduceMotion.addEventListener('change', scheduleUpdate);
-  update();
 }
 
 async function submitNetlifyForm(form, successMessage) {
@@ -437,7 +371,6 @@ async function initPage() {
   initNavIndicator();
   initScrollingLogo();
   initRevealAnimations();
-  initImageParallax('.family-care-photo', 45, -0.12, true);
   initSignupForms();
   initOnboardingForm();
   initFooterUtilities();

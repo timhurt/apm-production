@@ -80,12 +80,10 @@ test('signup reports errors and redirects only after successful submission', asy
  await page.getByRole('button',{name:'Reserve My Spot'}).click();
  await expect(page).toHaveURL(/thank-you.html$/);
 });
-test('reduced motion disables scroll effects when preferences change', async ({page})=>{
+test('reduced motion disables the sticky founder image', async ({page})=>{
  await page.emulateMedia({reducedMotion:'no-preference'});
  await page.goto('/');
- await page.locator('.family-care-photo').scrollIntoViewIfNeeded();
  await page.emulateMedia({reducedMotion:'reduce'});
- await expect(page.locator('.family-care-photo')).toHaveCSS('transform','none');
  await expect(page.locator('.editorial-pair--about .editorial-image')).toHaveCSS('position','relative');
 });
 for (const path of pages) {
