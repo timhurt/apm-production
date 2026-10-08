@@ -20,8 +20,14 @@ function initNav() {
   if (!nav || !menuToggle) return;
   nav.classList.add('is-enhanced');
   const mobile = window.matchMedia('(max-width: 900px)');
+  const backdrop = document.createElement('div');
+  backdrop.className = 'nav-backdrop';
+  backdrop.setAttribute('aria-hidden', 'true');
+  document.body.append(backdrop);
+  backdrop.addEventListener('click', closeMenu);
   function updateMenuLabel(open) {
     menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Menu');
+    document.body.classList.toggle('mobile-nav-open', open && mobile.matches);
   }
   function closeMenu() {
     nav.classList.remove('is-open');
@@ -179,40 +185,21 @@ function initScrollingLogo() {
 
 function initMobileFooterDock() {
   const header = document.querySelector('.site-header');
-  const source = document.querySelector('.footer-logo-img');
-  const target = header?.querySelector('.brand-logo-img');
-  if (!source || !target) return;
+  const footer = document.querySelector('.site-footer');
+  if (!header || !footer) return;
   const mobile = matchMedia('(max-width: 900px)');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const floating = source.cloneNode();
-  floating.className = 'footer-docking-logo';
-  floating.alt = '';
-  floating.setAttribute('aria-hidden', 'true');
-  document.body.append(floating);
   let frame;
   function update() {
     frame = null;
-    const origin = source.getBoundingClientRect();
-    const destination = target.getBoundingClientRect();
-    // Dock within the available scroll distance, even on pages with a short footer.
-    const remaining = Math.max(0, document.documentElement.scrollHeight - innerHeight - scrollY);
-    const progress = mobile.matches ? Math.max(0, Math.min(1, 1 - remaining / (innerHeight * 0.55))) : 0;
-    header.style.setProperty('--footer-dock', progress);
-    header.classList.toggle('has-footer-dock', progress > 0);
-    header.classList.toggle('footer-is-docked', progress >= 1 || (reduced.matches && progress > 0));
-    const moving = progress > 0 && progress < 1 && !reduced.matches;
-    floating.hidden = !moving;
-    source.style.visibility = progress > 0 ? 'hidden' : '';
-    if (moving) {
-      floating.style.width = `${origin.width + (destination.width - origin.width) * progress}px`;
-      floating.style.transform = `translate(${origin.left + (destination.left - origin.left) * progress}px, ${origin.top + (destination.top - origin.top) * progress}px)`;
-    }
+    // The footer stays in normal document flow; swap only at the header edge.
+    const docked = mobile.matches && footer.getBoundingClientRect().top <= header.getBoundingClientRect().bottom;
+    header.classList.toggle('has-footer-dock', docked);
+    header.classList.toggle('footer-is-docked', docked);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   addEventListener('scroll', schedule, { passive: true });
   addEventListener('resize', schedule);
   mobile.addEventListener('change', schedule);
-  reduced.addEventListener('change', schedule);
   new ResizeObserver(schedule).observe(document.body);
   update();
 }

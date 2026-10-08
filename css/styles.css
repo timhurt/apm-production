@@ -356,7 +356,7 @@ p + .editorial-link { margin-top: 22px; }
 .section-dark h2, .section-dark h3 { color: var(--sailcloth); }
 .section-dark h2 { text-shadow: -.6px -.6px 0 rgba(255,255,255,.12), .8px .8px 0 rgba(0,0,0,.24); }
 .section-dark .eyebrow { color: var(--academy-gold); }
-.section-dark p { color: var(--harbor); }
+.section-dark p { color: var(--sailcloth); opacity: 0.8; }
 /* Membership pricing */
 .pricing-section { background: var(--paper-2); }
 .pricing-intro {
@@ -367,6 +367,7 @@ p + .editorial-link { margin-top: 22px; }
   margin-bottom: 48px;
 }
 .pricing-intro h2 { max-width: 760px; margin-bottom: 0; }
+body[data-page="membership"] #membership-options { font-size: clamp(1.8rem, 3vw, 2.5rem); }
 .pricing-intro > p { max-width: 540px; margin: 0 0 8px; color: var(--ironclad); line-height: 1.75; }
 .table-kicker { display: block; margin-bottom: 12px; font-size: .7rem; font-weight: 700; line-height: 1.3; letter-spacing: .15em; text-transform: uppercase; color: var(--ironclad); }
 .pricing-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 13px 18px; border: 1px solid var(--command-blue); border-radius: 999px; color: var(--command-blue); font-size: .82rem; font-weight: 700; text-align: center; }
@@ -542,17 +543,17 @@ p + .editorial-link { margin-top: 22px; }
 .page-hero-aside strong { display: block; color: var(--sailcloth); font-family: var(--serif); font-size: 2.1rem; font-weight: var(--serif-weight-bold); line-height: 1.05; }
 .page-hero-aside p:last-of-type { margin: 18px 0 0; color: var(--harbor); line-height: 1.7; }
 .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.plan-card { padding: 44px; border: 1px solid rgba(10,26,47,.22); border-radius: 28px; background: var(--card); }
-.plan-card--featured { background: var(--command-blue); color: var(--sailcloth); }
+.plan-card { position: relative; padding: 44px; border: 0; border-radius: 28px; background: #f7f4ed; }
+.plan-card--featured { background: #1b3046; color: var(--sailcloth); }
 .plan-card h3 { margin-bottom: 22px; font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 4rem); font-weight: var(--serif-weight-bold); line-height: .98; }
 .plan-card--featured h3 { color: var(--sailcloth); }
 .plan-card--featured .table-kicker { color: var(--academy-gold); }
-.plan-card-price { margin: 0 0 24px; }
+.plan-card-price { display: flex; align-items: baseline; gap: 14px; margin: 12px 0 36px; }
 .plan-card-price strong { display: block; color: var(--command-blue); font-family: var(--serif); font-size: clamp(3.6rem, 6vw, 6rem); font-weight: var(--serif-weight-bold); line-height: .85; }
 .plan-card--featured .plan-card-price strong { color: var(--sailcloth); }
-.plan-card-price span { display: block; margin-top: 10px; font-size: .86rem; font-weight: 600; }
+.plan-card-price span { display: block; min-width: 0; margin-top: 0; font-size: .86rem; font-weight: 600; line-height: 1.4; }
 .plan-card > p { line-height: 1.7; }
-.plan-card--featured > p { color: var(--harbor); }
+.plan-card--featured > p { color: var(--sailcloth); }
 .check-list { margin: 28px 0 34px; padding: 0; list-style: none; }
 .check-list li { position: relative; padding: 12px 0 12px 28px; border-top: 1px solid rgba(10,26,47,.16); }
 .check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--copper); font-weight: 700; }
@@ -579,7 +580,7 @@ p + .editorial-link { margin-top: 22px; }
 @media (max-width: 700px) {
   .care-services-list { grid-template-columns: 1fr; }
 }
-.split-callout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: end; }
+.split-callout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
 .split-callout p { line-height: 1.75; }
 .button-primary, .button-gold, .button-outline { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 24px; padding: 14px 22px; border-radius: 999px; font-size: .95rem; font-weight: 700; }
 .button-outline { background: transparent; color: var(--command-blue); box-shadow: inset 0 0 0 1px var(--command-blue); }
@@ -790,25 +791,24 @@ body[data-page="services"] .care-family-grid h3 { font-family: var(--serif); fon
 .services-slider-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 32px; }
 body[data-page="services"] .services-slider-heading h2 { margin: 0; }
 .slider-controls { display: flex; gap: 8px; }
-.slider-controls button { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--copper); font-size: 1.4rem; }
-.slider-controls button:hover { background: var(--command-blue); color: var(--sailcloth); }
+.slider-controls button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--copper); font-size: 33px; line-height: 1; transition: color .2s ease; }
+.slider-controls button .bi { display: block; line-height: 1; }
+.slider-controls button:hover { color: var(--command-blue); }
 body[data-page="services"] .care-stage h2 { font-size: clamp(1.35rem, 1.8vw, 1.6rem); }
-body[data-page="services"] .section-dark { background: #17334b; }
+body[data-page="services"] .section-dark { position: relative; isolation: isolate; background: #17334b; }
+body[data-page="services"] .section-dark::before, .navy-grain::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .039 0 0 0 0 .102 0 0 0 0 .184 0 0 0 1 0'/%3E%3C/filter%3E%3Cpath fill='%230a1a2f' filter='url(%23grain)' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
 .founding-circle { border-radius: 4px; border-left: 3px solid var(--academy-gold); padding: 32px; background: transparent; }
 .thank-you-next-steps { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(245,241,232,.25); }
 .thank-you-next-steps h2 { color: var(--sailcloth); }
 body[data-page="faq"] .page-hero { padding-bottom: 0; overflow: hidden; }
 body[data-page="faq"] .page-hero h1 { margin-bottom: 0; line-height: .95; }
 body[data-page="faq"] .page-hero + section { position: relative; z-index: 1; padding-top: 0; background: var(--paper-2); }
-.footer-docking-logo { position: fixed; top: 0; left: 0; z-index: 22; height: auto; pointer-events: none; filter: brightness(0) invert(1); }
-.footer-docking-logo[hidden] { display: none; }
 @media (max-width: 900px) {
-  .site-header::before { content: ''; position: absolute; inset: 0; background: var(--command-blue); transform: translateY(calc((1 - var(--footer-dock, 0)) * 100%)); clip-path: inset(0); opacity: var(--footer-dock, 0); pointer-events: none; }
+  .site-header.has-footer-dock { background: var(--command-blue); }
   .site-header .nav-wrap { position: relative; }
-  .site-header.has-footer-dock .brand picture { visibility: hidden; }
   .site-header.footer-is-docked .brand picture { visibility: visible; }
   .site-header.footer-is-docked .brand-logo-img { filter: brightness(0) invert(1); }
-  .site-header.has-footer-dock .menu-toggle { color: color-mix(in srgb, var(--sailcloth) calc(var(--footer-dock) * 100%), var(--command-blue)); border-color: rgba(245,241,232,.3); }
+  .site-header.has-footer-dock .menu-toggle { color: var(--sailcloth); border-color: rgba(245,241,232,.3); }
   .site-header.has-footer-dock .site-nav { background: var(--command-blue); }
   .site-header.has-footer-dock .site-nav a { color: var(--sailcloth); }
   .site-header.has-footer-dock .site-nav .nav-cta { background: var(--academy-gold); color: var(--command-blue); }
@@ -818,7 +818,7 @@ body[data-page="faq"] .page-hero + section { position: relative; z-index: 1; pad
   body[data-page="home"] #why .editorial-note { display: none; }
   body[data-page="inquiry"] .page-editorial-image { display: none; }
   body[data-page="membership"] .household-section { padding-bottom: 24px; }
-  body[data-page="membership"] section[aria-labelledby="included-heading"] { padding-top: 16px; }
+  body[data-page="membership"] .membership-inquiry { padding-top: 16px; }
   .household-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .household-grid article { padding: 22px 14px; border-right: 0; }
   .household-grid article:nth-child(1) { grid-column: 1; grid-row: 1; }
@@ -833,6 +833,69 @@ body[data-page="faq"] .page-hero + section { position: relative; z-index: 1; pad
   body[data-page="services"] .section-dark { padding-block: 48px; }
   body[data-page="faq"] .page-hero h1 { font-size: 12vw; white-space: nowrap; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .site-header::before { transform: none; }
+
+/* Membership terms and inquiry. */
+.membership-fine-print { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; margin-top: 24px; color: var(--muted); font-size: .8rem; line-height: 1.65; }
+.membership-fine-print h3 { margin: 0 0 6px; color: inherit; font-family: var(--sans); font-size: inherit; font-weight: 600; }
+.membership-fine-print p { margin: 0; }
+.membership-notes { padding-block: 24px 40px; }
+.membership-notes .membership-details { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 0; }
+.membership-notes .membership-details > div { padding: 12px 32px; }
+.membership-notes .membership-details > div:first-child { padding-left: 0; }
+.membership-notes .membership-details > div:last-child { padding-right: 0; }
+.membership-notes .membership-details > div + div { border-left: 1px solid var(--line); }
+.membership-notes .bi { display: block; margin-bottom: 16px; color: var(--copper); font-size: 1.5rem; }
+.membership-notes h3 { margin-bottom: 12px; font-size: 1.5rem; }
+.membership-notes p { margin: 0; font-size: .9rem; }
+.membership-inquiry-panel { position: relative; isolation: isolate; overflow: hidden; padding: clamp(32px, 6vw, 64px); border-radius: 16px; background: var(--command-blue); color: var(--sailcloth); }
+.membership-inquiry-panel h2 { color: var(--sailcloth); font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); }
+.membership-inquiry-panel p { max-width: 65ch; color: var(--sailcloth); }
+@media (max-width: 900px) {
+  .membership-fine-print { grid-template-columns: 1fr; gap: 20px; }
+  .membership-notes .membership-details { grid-template-columns: 1fr; }
+  .membership-notes .membership-details > div { padding: 24px 0; }
+  .membership-notes .membership-details > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* The existing inquiry link also covers its plan card. */
+.plan-card .pricing-button::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 28px; cursor: pointer; }
+.plan-card:has(.pricing-button:focus-visible) { outline: 3px solid var(--copper); outline-offset: 4px; }
+@media (hover: hover) {
+  .plan-card:hover { background: #fff; }
+  .plan-card--featured:hover { background: var(--command-blue); }
+  .plan-card:hover .pricing-button { background: var(--command-blue); color: var(--sailcloth); }
+  .plan-card--featured:hover .pricing-button { border-color: #fff; background: #fff; color: var(--command-blue); }
+}
+.membership-cost-benefit { display: flex; align-items: flex-start; gap: 12px; }
+.membership-cost-benefit .bi { flex: 0 0 auto; color: var(--copper); font-size: 1.5rem; line-height: 1.5; }
+
+.plan-card .pricing-button { background: transparent; }
+.plan-card--featured .pricing-button { border-color: var(--sailcloth); color: var(--sailcloth); }
+.membership-inquiry-panel::after { content: ''; position: absolute; top: -32px; right: -32px; z-index: -1; width: clamp(180px, 28vw, 320px); aspect-ratio: 1; background: url('../img/mark-w.svg') center / contain no-repeat; opacity: .07; pointer-events: none; }
+@media (hover: hover) {
+  .plan-card:hover .pricing-button { background: var(--command-blue); color: #fff; }
+  .plan-card--featured:hover .pricing-button { background: #fff; color: var(--command-blue); }
+}
+
+/* Mobile navigation stays above the dimmed page and the footer. */
+.nav-backdrop { position: fixed; inset: 0; z-index: 19; background: rgba(10,26,47,.35); backdrop-filter: blur(4px); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
+.external-link-icon { display: inline-block; transform: translateY(-.12em); }
+@media (max-width: 900px) {
+  .mobile-nav-open .nav-backdrop { opacity: 1; visibility: visible; pointer-events: auto; }
+  .mobile-nav-open .site-header { z-index: 30; }
+  .site-nav.is-open { z-index: 2; }
+  .household-grid article { border: 0; padding: 18px 12px; }
+  .household-grid article:nth-child(-n+2) { border-right: 1px solid var(--line); border-bottom: 0; }
+  .household-grid article:nth-child(even) { border-top: 1px solid var(--line); }
+  .household-grid span { font-size: .72rem; letter-spacing: .025em; line-height: 1.4; min-height: 2.8em; }
+  .household-grid strong { margin: 10px 0 4px; }
+  .household-grid small { font-size: .76rem; line-height: 1.4; }
+  .membership-inquiry-panel { width: calc(100% - 40px); padding: 28px 20px; }
+  .footer-contact { gap: 8px; }
+  .footer-contact a { font-size: .8rem; white-space: nowrap; }
+  .footer-contact br { display: none; }
+}
+.footer-address-separator { display: none; }
+@media (max-width: 900px) {
+  .footer-address-separator { display: inline; }
 }

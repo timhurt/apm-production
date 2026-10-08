@@ -42,6 +42,9 @@ async function build() {
     })
   );
 
+  // Public assets are served at the site root (for example, /favicon.ico).
+  await cp(path.join(rootDir, 'public'), distDir, { recursive: true });
+
   console.log('Build complete: dist folder is ready for deployment.');
 }
 
