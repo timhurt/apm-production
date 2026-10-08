@@ -35,9 +35,9 @@
 
     <section class="section-pad section-contrast" aria-labelledby="services-heading">
       <div class="container">
-        <h2 class="services-heading" id="services-heading">Core Services</h2>
+        <div class="services-slider-heading"><h2 class="services-heading" id="services-heading">Services</h2><div class="slider-controls" aria-label="Scroll services"><button type="button" data-slide="-1" aria-label="Previous services" aria-controls="services-slider">←</button><button type="button" data-slide="1" aria-label="Next services" aria-controls="services-slider">→</button></div></div>
         <div class="care-scroll-frame">
-        <ol class="care-continuum" tabindex="0" role="list" aria-label="Plan, Care, Navigate, Follow Up">
+        <ol id="services-slider" class="care-continuum" tabindex="0" role="list" aria-label="Plan, Care, Navigate, Follow Up">
           <li class="care-stage reveal">
             <span class="service-number">01</span>
             <div class="care-stage-intro"><h2>Proactive Health Plan</h2><p>Start with a clear picture of your health, priorities, risks, and goals—then build a plan for the year ahead.</p></div>
@@ -162,6 +162,12 @@
     milestones.addEventListener('lostpointercapture', endCardDrag);
     milestones.addEventListener('wheel', stopCardMomentum, { passive: true });
     reducedMotion.addEventListener('change', stopCardMomentum);
+    document.querySelectorAll('[data-slide]').forEach(button => {
+      button.addEventListener('click', () => {
+        stopCardMomentum();
+        milestones.scrollBy({ left: Number(button.dataset.slide) * (milestones.querySelector('.care-stage').offsetWidth + 24), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+      });
+    });
     milestones.addEventListener('keydown', event => {
       if (event.target !== milestones || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
       event.preventDefault();

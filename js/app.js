@@ -20,9 +20,13 @@ function initNav() {
   if (!nav || !menuToggle) return;
   nav.classList.add('is-enhanced');
   const mobile = window.matchMedia('(max-width: 900px)');
+  function updateMenuLabel(open) {
+    menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Menu');
+  }
   function closeMenu() {
     nav.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
+    updateMenuLabel(false);
   }
   nav.addEventListener('keydown', event => {
     if (event.key === 'Escape' && mobile.matches && nav.classList.contains('is-open')) {
@@ -46,12 +50,14 @@ function initNav() {
   menuToggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('is-open');
     menuToggle.setAttribute('aria-expanded', String(open));
+    updateMenuLabel(open);
   });
 
   document.querySelectorAll('.site-nav a').forEach(link => {
     link.addEventListener('click', () => {
       nav?.classList.remove('is-open');
       menuToggle?.setAttribute('aria-expanded', 'false');
+      updateMenuLabel(false);
     });
   });
 }
@@ -168,6 +174,62 @@ function initScrollingLogo() {
   mobile.addEventListener('change', scheduleUpdate);
   new ResizeObserver(scheduleUpdate).observe(document.querySelector('.hero'));
   document.fonts.ready.then(scheduleUpdate);
+  update();
+}
+
+function initMobileFooterDock() {
+  const header = document.querySelector('.site-header');
+  const source = document.querySelector('.footer-logo-img');
+  const target = header?.querySelector('.brand-logo-img');
+  if (!source || !target) return;
+  const mobile = matchMedia('(max-width: 900px)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const floating = source.cloneNode();
+  floating.className = 'footer-docking-logo';
+  floating.alt = '';
+  floating.setAttribute('aria-hidden', 'true');
+  document.body.append(floating);
+  let frame;
+  function update() {
+    frame = null;
+    const origin = source.getBoundingClientRect();
+    const destination = target.getBoundingClientRect();
+    // Dock within the available scroll distance, even on pages with a short footer.
+    const remaining = Math.max(0, document.documentElement.scrollHeight - innerHeight - scrollY);
+    const progress = mobile.matches ? Math.max(0, Math.min(1, 1 - remaining / (innerHeight * 0.55))) : 0;
+    header.style.setProperty('--footer-dock', progress);
+    header.classList.toggle('has-footer-dock', progress > 0);
+    header.classList.toggle('footer-is-docked', progress >= 1 || (reduced.matches && progress > 0));
+    const moving = progress > 0 && progress < 1 && !reduced.matches;
+    floating.hidden = !moving;
+    source.style.visibility = progress > 0 ? 'hidden' : '';
+    if (moving) {
+      floating.style.width = `${origin.width + (destination.width - origin.width) * progress}px`;
+      floating.style.transform = `translate(${origin.left + (destination.left - origin.left) * progress}px, ${origin.top + (destination.top - origin.top) * progress}px)`;
+    }
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
+  mobile.addEventListener('change', schedule);
+  reduced.addEventListener('change', schedule);
+  new ResizeObserver(schedule).observe(document.body);
+  update();
+}
+
+function initFaqParallax() {
+  const hero = document.querySelector('body[data-page="faq"] .page-hero');
+  if (!hero) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let frame;
+  function update() {
+    frame = null;
+    const distance = Math.max(0, -hero.getBoundingClientRect().top + 74);
+    hero.firstElementChild.style.transform = reduced.matches ? '' : `translateY(${Math.min(distance, hero.offsetHeight) * 0.35}px)`;
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+  addEventListener('scroll', schedule, { passive: true });
+  reduced.addEventListener('change', schedule);
   update();
 }
 
@@ -370,6 +432,8 @@ async function initPage() {
   initNav();
   initNavIndicator();
   initScrollingLogo();
+  initMobileFooterDock();
+  initFaqParallax();
   initRevealAnimations();
   initSignupForms();
   initOnboardingForm();

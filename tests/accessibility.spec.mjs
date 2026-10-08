@@ -33,7 +33,7 @@ test('skip link and mobile menu keyboard behavior',async({page})=>{
  await expect(page.locator('.skip-link')).toBeFocused();
  await page.keyboard.press('Enter');
  await expect(page.locator('main')).toBeFocused();
- const menu=page.getByRole('button',{name:'Menu',exact:true});
+ const menu=page.locator('.menu-toggle');
  await menu.focus();await page.keyboard.press('Enter');
  await expect(menu).toHaveAttribute('aria-expanded','true');
  await page.keyboard.press('Tab');
