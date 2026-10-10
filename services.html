@@ -29,12 +29,12 @@
 
     <section class="section-pad care-family" aria-labelledby="pediatric-heading">
       <div class="container">
-        <div class="care-family-intro"><p class="eyebrow">Care for individuals &amp; families</p><h2 id="pediatric-heading">One physician who understands the household.</h2><p>Anchor Point is designed to be useful when a concern affects not just one chart, but a spouse, child, parent, or the family around them. You have a physician who already understands the people, medical history, and context around the decision.</p></div>
+        <div class="care-family-intro"><p class="eyebrow">Care for individuals &amp; families</p><h2 id="pediatric-heading">One physician who understands the household.</h2><p>Anchor Point is designed for the moments when a concern affects more than one chart: a spouse, a child, a parent, or the family around them. You'll have a physician who already knows the people, the medical history, and the context around the decision.</p></div>
         <div class="care-family-grid">
           <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="32" cy="18" r="10"/><path d="M14 55V46a18 18 0 0 1 36 0v9M24 55V44M40 55V44"/></svg><h3>For individuals</h3><p>Comprehensive primary care, prevention, chronic disease management, acute care, and care coordination for adults.</p></div>
           <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="17" r="8"/><circle cx="12" cy="24" r="6"/><circle cx="52" cy="24" r="6"/><path d="M19 53V42a13 13 0 0 1 26 0v11M3 49v-7a9 9 0 0 1 15-7M61 49v-7a9 9 0 0 0-15-7M26 53V43M38 53V43"/></svg><h3>For families</h3><p>Acute illness and injury care, sports and preparticipation physicals, and family medical guidance for children and adolescents, while routine well-child and preventive care remains with their pediatrician.</p></div>
         </div>
-        <a class="button-gold" href="membership.html">Explore membership options</a>
+        <a class="button-gold" href="membership.html">Explore Membership Options</a>
       </div>
     </section>
 
@@ -50,7 +50,7 @@
           </li>
           <li class="care-stage reveal">
             <span class="service-number">02</span>
-            <div class="care-stage-intro"><h2>Always-On Service Calls</h2><p>Timely access to evaluate, diagnose, and treat concerns directly with same- or next-day visits for acute illness, plus secure telehealth consultations and select house calls.</p></div>
+            <div class="care-stage-intro"><h2>Service Calls</h2><p>Timely access to evaluate, diagnose, and treat concerns directly with same- or next-day visits for acute illness, plus secure telehealth consultations and select house calls.</p></div>
             <div class="care-stage-details">
               <div class="care-capabilities"><div class="care-examples"><h3>Procedures</h3><ul role="list">
                 <li><i class="bi bi-soundwave" aria-hidden="true"></i><span>Point-of-care ultrasound</span></li>
@@ -80,7 +80,7 @@
 
 
     <section class="section-pad section-dark">
-      <div class="container split-callout reveal"><div><h2>Not every concern needs a referral.</h2></div><div><p>Dr. Speicher’s emergency-medicine background and in-office diagnostic capabilities allow many concerns to be evaluated and treated directly. When specialist or hospital care is the right next step, Anchor Point helps determine where to go and what comes next.</p><a class="button-gold" href="membership.html">Explore membership</a></div></div>
+      <div class="container split-callout reveal"><div><h2>Not every concern needs a referral.</h2></div><div><p>Dr. Speicher’s emergency-medicine background and in-office diagnostic capabilities allow many concerns to be evaluated and treated directly. When specialist or hospital care is the right next step, Anchor Point helps determine where to go and what comes next.</p><a class="button-gold" href="membership.html">Explore Membership</a></div></div>
     </section>
   </main>
   <div id="site-footer"></div>
@@ -139,7 +139,6 @@
       if (event.pointerType === 'touch' || !event.isPrimary || event.button !== 0) return;
       if (event.target.closest('a, button, input, select, textarea')) return;
       event.preventDefault();
-      milestones.focus({ preventScroll: true });
       cardDrag = { pointerId: event.pointerId, startX: event.clientX, scrollLeft: milestones.scrollLeft, lastX: event.clientX, lastTime: performance.now(), velocity: 0 };
       milestones.setPointerCapture(event.pointerId);
       milestones.classList.add('is-dragging');

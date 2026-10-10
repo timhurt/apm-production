@@ -188,11 +188,29 @@ function initMobileFooterDock() {
   const footer = document.querySelector('.site-footer');
   if (!header || !footer) return;
   const mobile = matchMedia('(max-width: 900px)');
+  const wipe = document.createElement('div');
+  wipe.className = 'header-footer-wipe';
+  wipe.setAttribute('aria-hidden', 'true');
+  wipe.inert = true;
+  const bar = header.querySelector('.nav-wrap').cloneNode(true);
+  bar.querySelector('.site-nav')?.remove();
+  const menuCopy = bar.querySelector('.menu-toggle');
+  menuCopy.className = 'wipe-menu-toggle';
+  menuCopy.removeAttribute('aria-controls');
+  wipe.append(bar);
+  header.append(wipe);
   let frame;
   function update() {
     frame = null;
     // The footer stays in normal document flow; swap only at the header edge.
-    const docked = mobile.matches && footer.getBoundingClientRect().top <= header.getBoundingClientRect().bottom;
+    const bounds = header.getBoundingClientRect();
+    const edge = mobile.matches ? Math.max(0, Math.min(bounds.height, footer.getBoundingClientRect().top - bounds.top)) : bounds.height;
+    wipe.style.clipPath = `inset(${edge}px 0 0 0)`;
+    header.classList.toggle('footer-wiping', mobile.matches && edge < bounds.height);
+    const footerLogo = footer.querySelector('.footer-logo-img');
+    const navLogo = header.querySelector('.nav-wrap .brand-logo-img');
+    footer.classList.toggle('logo-in-header', mobile.matches && footerLogo.getBoundingClientRect().top <= navLogo.getBoundingClientRect().top);
+    const docked = mobile.matches && edge === 0;
     header.classList.toggle('has-footer-dock', docked);
     header.classList.toggle('footer-is-docked', docked);
   }
@@ -216,6 +234,26 @@ function initFaqParallax() {
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   addEventListener('scroll', schedule, { passive: true });
+  reduced.addEventListener('change', schedule);
+  update();
+}
+
+function initMembershipPhotoParallax() {
+  const photo = document.querySelector('.membership-waiting-photo');
+  if (!photo) return;
+  const image = photo.querySelector('img');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let frame;
+  function update() {
+    frame = null;
+    if (reduced.matches) { image.style.transform = ''; return; }
+    const bounds = photo.getBoundingClientRect();
+    const progress = Math.max(-1, Math.min(1, (innerHeight / 2 - bounds.top - bounds.height / 2) / ((innerHeight + bounds.height) / 2)));
+    image.style.transform = `translateY(${progress * bounds.height * 0.12}px)`;
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
   reduced.addEventListener('change', schedule);
   update();
 }
@@ -263,11 +301,23 @@ async function submitNetlifyForm(form, successMessage) {
   const button = form.querySelector('button[type="submit"]');
   const status = form.querySelector('.form-status');
   const label = button.textContent;
+  const inquiry = form.id === 'onboarding-form';
+  const started = performance.now();
+  const previousMinHeight = form.style.minHeight;
+  if (inquiry) {
+    const bounds = form.getBoundingClientRect();
+    form.style.minHeight = `${bounds.height}px`;
+    const visibleTop = Math.max(bounds.top, 90);
+    const visibleBottom = Math.min(bounds.bottom, innerHeight);
+    status.style.top = `${Math.max(24, (visibleTop + visibleBottom) / 2 - bounds.top)}px`;
+    document.body.classList.add('inquiry-sending');
+  }
   form.dataset.submitting = 'true';
   button.disabled = true;
   button.textContent = 'Sending…';
   status.classList.remove('is-error', 'is-success');
-  status.textContent = 'Sending your details…';
+  status.textContent = inquiry ? 'Sending…' : 'Sending your details…';
+  form.setAttribute('aria-busy', 'true');
   try {
     const response = await fetch('/', {
       method: 'POST',
@@ -275,15 +325,23 @@ async function submitNetlifyForm(form, successMessage) {
       body: new URLSearchParams(new FormData(form)).toString()
     });
     if (!response.ok) throw new Error('Submission failed');
+    if (inquiry) await new Promise(resolve => setTimeout(resolve, Math.max(0, 2500 - (performance.now() - started))));
     status.textContent = successMessage;
     status.classList.add('is-success');
     form.reset();
     form.dispatchEvent(new Event('change'));
     window.location.assign(form.action);
   } catch {
+    form.classList.remove('is-sent');
     status.textContent = 'We couldn’t send your details. Please try again or contact info@anchorpoint.med.';
     status.classList.add('is-error');
   } finally {
+    if (inquiry) {
+      document.body.classList.remove('inquiry-sending');
+      form.style.minHeight = previousMinHeight;
+      status.style.top = '';
+    }
+    form.removeAttribute('aria-busy');
     button.disabled = false;
     button.textContent = label;
     delete form.dataset.submitting;
@@ -312,16 +370,59 @@ function initSignupForms() {
   });
 }
 
+function initAvailabilityPicker(form) {
+  const picker = form.querySelector('.reach-preferences');
+  if (!picker) return;
+  const days = [...picker.querySelectorAll('[data-day]')];
+  const periods = [...picker.querySelectorAll('[data-period]')];
+  const reveal = picker.querySelector('.availability-reveal');
+  const phonePreference = form.querySelector('#contact-phone');
+  function sync() {
+    picker.hidden = !phonePreference.checked;
+    if (picker.hidden) [...days, ...periods].forEach(button => button.setAttribute('aria-pressed', 'false'));
+    const hasDays = days.some(button => button.getAttribute('aria-pressed') === 'true');
+    if (!hasDays) periods.forEach(button => button.setAttribute('aria-pressed', 'false'));
+    reveal.classList.toggle('is-expanded', hasDays);
+    reveal.inert = !hasDays;
+    reveal.setAttribute('aria-hidden', String(!hasDays));
+    for (const button of [...days, ...periods]) {
+      const value = button.dataset.day || button.dataset.period;
+      const input = [...picker.querySelectorAll('input[type="hidden"]')].find(input => input.value === value);
+      input.disabled = button.getAttribute('aria-pressed') !== 'true';
+    }
+    const selected = periods.filter(button => button.getAttribute('aria-pressed') === 'true');
+    // Retain the original range fields for the existing form integration.
+    const start = form.elements.preferredTimeStart;
+    const end = form.elements.preferredTimeEnd;
+    start.disabled = end.disabled = selected.length === 0;
+    start.value = selected.length ? selected.map(button => button.dataset.start).sort()[0] : '';
+    end.value = selected.length ? selected.map(button => button.dataset.end).sort().at(-1) : '';
+  }
+  phonePreference.addEventListener('change', sync);
+  for (const button of [...days, ...periods]) {
+    button.addEventListener('click', () => {
+      button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'));
+      sync();
+    });
+  }
+  form.addEventListener('reset', () => {
+    [...days, ...periods].forEach(button => button.setAttribute('aria-pressed', 'false'));
+    queueMicrotask(sync);
+  });
+  sync();
+}
+
 function initOnboardingForm() {
   const form = document.querySelector('#onboarding-form');
   if (!form) return;
+  initAvailabilityPicker(form);
   form.noValidate = true;
-  const fields = [...form.querySelectorAll('input:not([type="hidden"]):not([name="bot-field"]), select')];
+  const fields = [...form.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([name="bot-field"]), select, textarea')];
   function showError(field) {
     const error = document.getElementById(`${field.id}-error`);
     const invalid = !field.validity.valid;
     field.setAttribute('aria-invalid', String(invalid));
-    error.textContent = invalid ? (field.validity.valueMissing ? 'Please complete this field.' : 'Please enter a valid email address, such as name@example.com.') : '';
+    error.textContent = invalid ? 'Action required.' : '';
     error.hidden = !invalid;
     return invalid;
   }
@@ -337,9 +438,9 @@ function initOnboardingForm() {
     });
   });
   const phone = form.elements.phone;
-  const method = form.elements.contactMethod;
+  const phonePreference = form.querySelector('#contact-phone');
   function updatePhoneRequirement() {
-    phone.required = method.value === 'Phone';
+    phone.required = phonePreference.checked;
     form.querySelector('label[for="phone"]').textContent = phone.required ? 'Phone *' : 'Phone (optional)';
     if (phone.getAttribute('aria-invalid') === 'true') showError(phone);
   }
@@ -351,7 +452,7 @@ function initOnboardingForm() {
     const invalidFields = fields.filter(showError);
     if (invalidFields.length) {
       const status = form.querySelector('.form-status');
-      status.textContent = `Please correct ${invalidFields.length} highlighted field${invalidFields.length === 1 ? '' : 's'}.`;
+      status.textContent = `Briefing incomplete: ${invalidFields.length} field${invalidFields.length === 1 ? ' needs' : 's need'} attention.`;
       status.classList.remove('is-success');
       status.classList.add('is-error');
       invalidFields[0].focus();
@@ -421,6 +522,7 @@ async function initPage() {
   initScrollingLogo();
   initMobileFooterDock();
   initFaqParallax();
+  initMembershipPhotoParallax();
   initRevealAnimations();
   initSignupForms();
   initOnboardingForm();

@@ -94,3 +94,53 @@ for (const path of pages) {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
  });
 }
+
+test('availability progressively reveals periods and clears hidden submissions', async ({page}) => {
+ await page.goto('/onboarding.html');
+ await expect(page.locator('.reach-preferences')).toBeHidden();
+ await page.locator('#contact-phone').check();
+ const periods=page.locator('#availability-periods');
+ const monday=page.locator('[data-day="Monday"]');
+ await expect(periods).toHaveAttribute('aria-hidden','true');
+ await monday.focus();await page.keyboard.press('Space');
+ await expect(monday).toHaveAttribute('aria-pressed','true');
+ await expect(periods).toHaveAttribute('aria-hidden','false');
+ await page.getByRole('button',{name:'Wednesday',exact:true}).click();
+ await page.getByRole('button',{name:'Morning Before 12 PM'}).click();
+ await page.getByRole('button',{name:'Evening After 5 PM'}).click();
+ const availability=()=>page.locator('#onboarding-form').evaluate(form=>{
+  const data=new FormData(form);
+  return {days:data.getAll('preferredDays'),periods:data.getAll('preferredTimePeriods'),start:data.get('preferredTimeStart'),end:data.get('preferredTimeEnd')};
+ });
+ expect(await availability()).toEqual({days:['Monday','Wednesday'],periods:['Morning','Evening'],start:'00:00',end:'23:59'});
+ await monday.click();
+ await expect(periods).toHaveAttribute('aria-hidden','false');
+ await page.getByRole('button',{name:'Wednesday',exact:true}).click();
+ await expect(periods).toHaveAttribute('aria-hidden','true');
+ expect(await availability()).toEqual({days:[],periods:[],start:null,end:null});
+ await monday.click();
+ await expect(page.getByRole('button',{name:'Morning Before 12 PM'})).toHaveAttribute('aria-pressed','false');
+ await page.locator('#contact-phone').uncheck();
+ await expect(page.locator('.reach-preferences')).toBeHidden();
+ expect(await availability()).toEqual({days:[],periods:[],start:null,end:null});
+ await page.locator('#onboarding-form').evaluate(form=>form.reset());
+ await expect(monday).toHaveAttribute('aria-pressed','false');
+ await expect(periods).toHaveAttribute('aria-hidden','true');
+});
+
+test('inquiry sending preserves scroll and waits before confirmation', async ({page}) => {
+ await page.goto('/onboarding.html');
+ await page.locator('#first-name').fill('Test');await page.locator('#last-name').fill('Visitor');await page.locator('#onboarding-email').fill('test@example.com');
+ await page.route('http://127.0.0.1:8091/',r=>r.fulfill({status:200,body:'OK'}));
+ const submit=page.getByRole('button',{name:'Send Inquiry'});
+ await submit.scrollIntoViewIfNeeded();
+ const before=await page.evaluate(()=>scrollY);
+ const started=Date.now();
+ await submit.click();
+ await expect(page.getByRole('status')).toHaveText('Sending…');
+ expect(Math.abs(await page.evaluate(()=>scrollY)-before)).toBeLessThan(2);
+ await page.waitForTimeout(1000);
+ await expect(page).toHaveURL(/onboarding.html$/);
+ await expect(page).toHaveURL(/thank-you.html$/);
+ expect(Date.now()-started).toBeGreaterThanOrEqual(2400);
+});

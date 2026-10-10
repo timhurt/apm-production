@@ -22,10 +22,12 @@
   <main tabindex="-1" id="main-content">
     <section class="editorial-section">
       <div class="container onboarding-layout">
-        <div class="editorial-copy">
-          <h1>Drop us a line.</h1>
-          <p>Tell us how to reach you. This is an introductory inquiry, not an enrollment agreement or a payment.</p>
-          <a class="editorial-link" href="membership.html">Review membership options <span aria-hidden="true">↗</span></a>
+        <div class="editorial-copy onboarding-intro">
+          <h1>Drop a line.</h1>
+          <ul class="onboarding-contact" role="list">
+            <li><i class="bi bi-telephone" aria-hidden="true"></i><a href="tel:+13018952626">(301) 895-2626</a></li>
+            <li><i class="bi bi-envelope" aria-hidden="true"></i><a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a></li>
+          </ul>
 
           <figure class="page-editorial-image page-editorial-image--inset"><img src="img/anchorpoint-books.png" width="1254" height="1254" alt="A stethoscope resting on clothbound books" loading="lazy" decoding="async" /></figure>
         </div>
@@ -33,19 +35,77 @@
           <form id="onboarding-form" class="onboarding-form" name="membership-inquiry" method="POST" action="thank-you.html" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="membership-inquiry" />
             <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
-            <p class="onboarding-notice" id="onboarding-notice">Send your contact details to inquire about membership. You can also call <a href="tel:+13018952626">(301) 895-2626</a> or email <a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a>.</p>
-            <fieldset aria-describedby="contact-instructions">
-              <legend>Your contact details</legend>
-              <p class="field-hint" id="contact-instructions">Fields marked * are required. Please do not submit medical histories with your inquiry.</p>
+            <fieldset aria-describedby="inquiry-notice contact-instructions">
+              <legend>Membership Inquiry</legend>
               <div class="onboarding-fields">
-                <div><label for="first-name">First name *</label><input id="first-name" name="firstName" autocomplete="given-name" required maxlength="100" /></div>
-                <div><label for="last-name">Last name *</label><input id="last-name" name="lastName" autocomplete="family-name" required maxlength="100" /></div>
-                <div class="field-wide"><label for="onboarding-email">Email address *</label><input id="onboarding-email" name="email" type="email" autocomplete="email" required maxlength="254" /></div>
-                <div><label for="phone">Phone <span>(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" /></div>
-                <div><label for="contact-method">Preferred contact</label><select id="contact-method" name="contactMethod"><option value="Email">Email</option><option value="Phone">Phone</option></select></div>
+                <div><label for="first-name">First name *</label><input id="first-name" name="firstName" autocomplete="given-name" required maxlength="100" placeholder=" " /></div>
+                <div><label for="last-name">Last name *</label><input id="last-name" name="lastName" autocomplete="family-name" required maxlength="100" placeholder=" " /></div>
+                <div><label for="onboarding-email">Email address *</label><input id="onboarding-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder=" " /></div>
+                <div><label for="phone">Phone <span>(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder=" " /></div>
+                <fieldset class="contact-preferences field-wide">
+                  <legend class="form-prompt">Preferred contact method:</legend>
+                  <label for="contact-email"><input id="contact-email" type="checkbox" name="contactMethod" value="Email" checked /> Email</label>
+                  <label for="contact-phone"><input id="contact-phone" type="checkbox" name="contactMethod" value="Phone" /> Phone</label>
+                </fieldset>
+
               </div>
             </fieldset>
-            <button class="onboarding-button" type="submit" aria-describedby="onboarding-notice">Send Inquiry</button>
+            <fieldset class="reach-preferences" aria-describedby="reach-hint" hidden>
+              <p class="field-hint form-prompt" id="reach-hint">Best times to reach you? <span>(optional)</span></p>
+              <div class="availability-days" role="group" aria-label="Preferred days">
+                <button type="button" class="availability-toggle" data-day="Monday" aria-label="Monday" aria-pressed="false" aria-controls="availability-periods">Mon</button>
+                <input type="hidden" name="preferredDays" value="Monday" disabled />
+                <button type="button" class="availability-toggle" data-day="Tuesday" aria-label="Tuesday" aria-pressed="false" aria-controls="availability-periods">Tue</button>
+                <input type="hidden" name="preferredDays" value="Tuesday" disabled />
+                <button type="button" class="availability-toggle" data-day="Wednesday" aria-label="Wednesday" aria-pressed="false" aria-controls="availability-periods">Wed</button>
+                <input type="hidden" name="preferredDays" value="Wednesday" disabled />
+                <button type="button" class="availability-toggle" data-day="Thursday" aria-label="Thursday" aria-pressed="false" aria-controls="availability-periods">Thu</button>
+                <input type="hidden" name="preferredDays" value="Thursday" disabled />
+                <button type="button" class="availability-toggle" data-day="Friday" aria-label="Friday" aria-pressed="false" aria-controls="availability-periods">Fri</button>
+                <input type="hidden" name="preferredDays" value="Friday" disabled />
+                <button type="button" class="availability-toggle" data-day="Saturday" aria-label="Saturday" aria-pressed="false" aria-controls="availability-periods">Sat</button>
+                <input type="hidden" name="preferredDays" value="Saturday" disabled />
+                <button type="button" class="availability-toggle" data-day="Sunday" aria-label="Sunday" aria-pressed="false" aria-controls="availability-periods">Sun</button>
+                <input type="hidden" name="preferredDays" value="Sunday" disabled />
+              </div>
+              <div class="availability-reveal" id="availability-periods" inert aria-hidden="true">
+                <div class="availability-reveal-inner">
+                  <div class="availability-times" role="group" aria-label="Preferred time periods">
+                    <button type="button" class="availability-toggle" data-period="Morning" data-start="00:00" data-end="12:00" aria-pressed="false"><span>Morning</span><small>Before 12 PM</small></button>
+                    <input type="hidden" name="preferredTimePeriods" value="Morning" disabled />
+                    <button type="button" class="availability-toggle" data-period="Afternoon" data-start="12:00" data-end="17:00" aria-pressed="false"><span>Afternoon</span><small>12–5 PM</small></button>
+                    <input type="hidden" name="preferredTimePeriods" value="Afternoon" disabled />
+                    <button type="button" class="availability-toggle" data-period="Evening" data-start="17:00" data-end="23:59" aria-pressed="false"><span>Evening</span><small>After 5 PM</small></button>
+                    <input type="hidden" name="preferredTimePeriods" value="Evening" disabled />
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="preferredTimeStart" disabled />
+              <input type="hidden" name="preferredTimeEnd" disabled />
+            </fieldset>
+            <div class="inquiry-notes">
+              <label class="form-prompt" for="inquiry-notes">Anything we should know? <span>(optional)</span></label>
+              <textarea id="inquiry-notes" name="notes" rows="4" maxlength="2000" aria-describedby="notes-hint"></textarea>
+                <p class="field-hint" id="notes-hint"><span aria-hidden="true">*</span><span>Form is not monitored for emergencies. Do not submit personal health information. General inquiries only. </span></p>
+
+              </div>
+            <div class="onboarding-fields referral-last">
+                <div class="field-wide referral-source-row">
+                  <p><label class="form-prompt" for="referral-source">How did you hear about us? <span>(optional)</span></label></p>
+                  <select id="referral-source" name="referralSource">
+                    <option value="">Select an option</option>
+                    <option value="Friend or family">Friend or family</option>
+                    <option value="Physician or healthcare professional">Physician or healthcare professional</option>
+                    <option value="Google or another search engine">Google or another search engine</option>
+                    <option value="Google Maps">Google Maps</option>
+                    <option value="Social media">Social media</option>
+                    <option value="Community event or local organization">Community event or local organization</option>
+                    <option value="Advertisement">Advertisement</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+            </div>
+            <button class="onboarding-button" type="submit" aria-describedby="contact-instructions">Send Inquiry</button>
             <p id="inquiry-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
           </form>
         </div>
