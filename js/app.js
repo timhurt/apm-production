@@ -446,6 +446,40 @@ function initOnboardingForm() {
   }
   form.addEventListener('change', updatePhoneRequirement);
   updatePhoneRequirement();
+  const membershipType = form.elements.membershipType;
+  const dependants = form.elements.familyMembers;
+  const dependantsField = form.querySelector('#family-dependants-field');
+  const familySteps = [...form.querySelectorAll('[data-family-step]')];
+  if (new URLSearchParams(window.location.search).get('membership') === 'family') {
+    membershipType.value = 'Family';
+  }
+  function updateFamilySteps() {
+    const count = dependants.valueAsNumber;
+    familySteps.forEach(button => {
+      button.disabled = dependants.disabled || (Number(button.dataset.familyStep) < 0 ? count <= 1 : count >= 4);
+    });
+  }
+  familySteps.forEach(button => button.addEventListener('click', () => {
+    const count = Number.isFinite(dependants.valueAsNumber) ? dependants.valueAsNumber : 2;
+    dependants.value = String(Math.max(1, Math.min(4, count + Number(button.dataset.familyStep))));
+    dependants.dispatchEvent(new Event('input', { bubbles: true }));
+  }));
+  dependants.addEventListener('input', updateFamilySteps);
+  function updateMembershipType() {
+    const family = membershipType.value === 'Family';
+    dependantsField.hidden = !family;
+    dependants.disabled = !family;
+    if (!family) {
+      dependants.value = '';
+      showError(dependants);
+    } else if (!dependants.value) {
+      dependants.value = '2';
+    }
+    updateFamilySteps();
+  }
+  membershipType.addEventListener('change', updateMembershipType);
+  form.addEventListener('reset', () => queueMicrotask(updateMembershipType));
+  updateMembershipType();
   form.addEventListener('submit', event => {
     event.preventDefault();
     for (const field of form.querySelectorAll('input, textarea')) field.value = field.value.trim();

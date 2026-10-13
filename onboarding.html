@@ -42,6 +42,8 @@
                 <div><label for="last-name">Last name *</label><input id="last-name" name="lastName" autocomplete="family-name" required maxlength="100" placeholder=" " /></div>
                 <div><label for="onboarding-email">Email address *</label><input id="onboarding-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder=" " /></div>
                 <div><label for="phone">Phone <span>(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder=" " /></div>
+                <div><label for="membership-type">Membership type</label><select id="membership-type" name="membershipType"><option value="Individual">Individual</option><option value="Family">Family</option></select></div>
+                <div id="family-dependants-field"><label for="family-dependants">Family Members</label><div class="family-member-counter"><button type="button" data-family-step="-1" aria-label="Decrease family members">−</button><input id="family-dependants" name="familyMembers" type="number" min="1" max="4" step="1" value="2" required inputmode="numeric" placeholder=" " /><button type="button" data-family-step="1" aria-label="Increase family members">+</button></div></div>
                 <fieldset class="contact-preferences field-wide">
                   <legend class="form-prompt">Preferred contact method:</legend>
                   <label for="contact-email"><input id="contact-email" type="checkbox" name="contactMethod" value="Email" checked /> Email</label>

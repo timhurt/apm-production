@@ -31,8 +31,8 @@
       <div class="container">
         <div class="care-family-intro"><p class="eyebrow">Care for individuals &amp; families</p><h2 id="pediatric-heading">One physician who understands the household.</h2><p>Anchor Point is designed for the moments when a concern affects more than one chart: a spouse, a child, a parent, or the family around them. You'll have a physician who already knows the people, the medical history, and the context around the decision.</p></div>
         <div class="care-family-grid">
-          <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="32" cy="18" r="10"/><path d="M14 55V46a18 18 0 0 1 36 0v9M24 55V44M40 55V44"/></svg><h3>For individuals</h3><p>Comprehensive primary care, prevention, chronic disease management, acute care, and care coordination for adults.</p></div>
-          <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="17" r="8"/><circle cx="12" cy="24" r="6"/><circle cx="52" cy="24" r="6"/><path d="M19 53V42a13 13 0 0 1 26 0v11M3 49v-7a9 9 0 0 1 15-7M61 49v-7a9 9 0 0 0-15-7M26 53V43M38 53V43"/></svg><h3>For families</h3><p>Acute illness and injury care, sports and preparticipation physicals, and family medical guidance for children and adolescents, while routine well-child and preventive care remains with their pediatrician.</p></div>
+          <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="32" cy="18" r="10"/><path d="M14 55V46a18 18 0 0 1 36 0v9M24 55V44M40 55V44"/></svg><h3>Individuals</h3><p>Comprehensive primary care, prevention, chronic disease management, acute care, and care coordination for adults.</p></div>
+          <div><svg class="care-family-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="17" r="8"/><circle cx="12" cy="24" r="6"/><circle cx="52" cy="24" r="6"/><path d="M19 53V42a13 13 0 0 1 26 0v11M3 49v-7a9 9 0 0 1 15-7M61 49v-7a9 9 0 0 0-15-7M26 53V43M38 53V43"/></svg><h3>Families</h3><p>Acute illness and injury care, sports and preparticipation physicals, and family medical guidance for children and adolescents, while routine well-child and preventive care remains with their pediatrician.</p></div>
         </div>
         <a class="button-gold" href="membership.html">Explore Membership Options</a>
       </div>
@@ -43,12 +43,12 @@
         <div class="services-slider-heading"><h2 class="services-heading" id="services-heading">Services</h2><div class="slider-controls" aria-label="Scroll services"><button type="button" data-slide="-1" aria-label="Previous services" aria-controls="services-slider"><i class="bi bi-arrow-left-circle-fill" aria-hidden="true"></i></button><button type="button" data-slide="1" aria-label="Next services" aria-controls="services-slider"><i class="bi bi-arrow-right-circle-fill" aria-hidden="true"></i></button></div></div>
         <div class="care-scroll-frame">
         <ol id="services-slider" class="care-continuum" tabindex="0" role="list" aria-label="Plan, Care, Navigate, Follow Up">
-          <li class="care-stage reveal">
+          <li class="care-stage">
             <span class="service-number">01</span>
             <div class="care-stage-intro"><h2>Proactive Health Plan</h2><p>Start with a clear picture of your health, priorities, risks, and goals—then build a plan for the year ahead.</p></div>
             <div class="care-stage-details"><ul><li>Comprehensive Annual Health Review</li><li>Personalized recommendations with goal setting</li><li>Evidence-based prevention</li><li>Travel medicine guidance</li><li>Sports and pre-participation physicals</li></ul></div>
           </li>
-          <li class="care-stage reveal">
+          <li class="care-stage">
             <span class="service-number">02</span>
             <div class="care-stage-intro"><h2>Service Calls</h2><p>Timely access to evaluate, diagnose, and treat concerns directly with same- or next-day visits for acute illness, plus secure telehealth consultations and select house calls.</p></div>
             <div class="care-stage-details">
@@ -62,12 +62,12 @@
               </ul></div></div>
             </div>
           </li>
-          <li class="care-stage reveal">
+          <li class="care-stage">
             <span class="service-number">03</span>
             <div class="care-stage-intro"><h2>Navigating Care</h2><p>Planned checkpoints and ongoing attention to keep results, medications, and health goals moving forward.</p></div>
             <div class="care-stage-details"><ul><li>Planned six-month progress review</li><li>Chronic condition management</li><li>Medication review and optimization</li><li>Review of outside labs and imaging</li><li>Ongoing attention to results and referrals</li></ul></div>
           </li>
-          <li class="care-stage reveal">
+          <li class="care-stage">
             <span class="service-number">04</span>
             <div class="care-stage-intro"><h2>Follow Ups + Referrals</h2><p>Anchor Point helps you understand what comes next and stay connected when specialists, hospitals, or other outside care are needed.</p></div>
             <div class="care-stage-details"><ul><li>Specialist referrals and coordination</li><li>Review of outside care and results</li><li>Guidance before and after hospital or emergency care</li><li>Help navigating complex medical decisions</li></ul></div>
@@ -169,7 +169,8 @@
     document.querySelectorAll('[data-slide]').forEach(button => {
       button.addEventListener('click', () => {
         stopCardMomentum();
-        milestones.scrollBy({ left: Number(button.dataset.slide) * (milestones.querySelector('.care-stage').offsetWidth + 24), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+        const gap = parseFloat(getComputedStyle(milestones).columnGap);
+        milestones.scrollBy({ left: Number(button.dataset.slide) * (milestones.querySelector('.care-stage').offsetWidth + gap), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
       });
     });
     milestones.addEventListener('keydown', event => {

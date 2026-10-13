@@ -3,6 +3,43 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const axePath = require.resolve('axe-core/axe.min.js');
 const pages = ['index.html','about.html','services.html','membership.html','faq.html','private-primary-care-bethesda.html','onboarding.html','privacy.html','terms.html','thank-you.html'];
+test('family inquiry preselects Family and limits the counter to four', async ({page}) => {
+  await page.goto('/membership.html');
+  await page.getByRole('link', {name: 'Family Inquiry', exact: true}).click();
+  await expect(page.locator('#membership-type')).toHaveValue('Family');
+  const count = page.getByRole('spinbutton', {name: 'Family Members'});
+  const plus = page.getByRole('button', {name: 'Increase family members'});
+  const minus = page.getByRole('button', {name: 'Decrease family members'});
+  await expect(count).toHaveValue('2');
+  await plus.click(); await plus.click();
+  await expect(count).toHaveValue('4');
+  await expect(plus).toBeDisabled();
+  await minus.click(); await minus.click(); await minus.click();
+  await expect(count).toHaveValue('1');
+  await expect(minus).toBeDisabled();
+  await count.fill('5');
+  expect(await count.evaluate(input => input.validity.valid)).toBe(false);
+});
+test('family membership includes dependants only while selected', async ({page}) => {
+  await page.goto('/onboarding.html');
+  const type = page.locator('#membership-type');
+  const count = page.locator('#family-dependants');
+  await expect(count).toBeHidden();
+  await expect(count).toBeDisabled();
+  await type.selectOption('Family');
+  await expect(count).toBeVisible();
+  await count.fill('2');
+  expect(await page.locator('#onboarding-form').evaluate(form => Object.fromEntries(new FormData(form)))).toMatchObject({membershipType: 'Family', familyMembers: '2'});
+  await count.fill('-1');
+  expect(await count.evaluate(input => input.validity.valid)).toBe(false);
+  await type.selectOption('Individual');
+  expect(await page.locator('#onboarding-form').evaluate(form => new FormData(form).has('familyMembers'))).toBe(false);
+  await type.selectOption('Family');
+  await expect(count).toHaveValue('2');
+  await page.locator('#onboarding-form').evaluate(form => form.reset());
+  await expect(type).toHaveValue('Individual');
+  await expect(count).toBeHidden();
+});
 test.beforeEach(async ({ page }) => {
   // Audit first-party UI without sending analytics or loading the feedback widget.
   await page.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
