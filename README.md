@@ -55,6 +55,31 @@ Optional local preview of built output:
 - Build command: `npm run build`
 - Publish directory: `dist`
 
+### Production Netlify account
+
+The `Deploy production` GitHub Actions workflow (`.github/workflows/deploy-production.yml`) publishes `main` from `timhurt/apm-production` to the existing production Netlify project when manually triggered. Runs in other repositories are skipped. It uses its own credentials and project ID, so the local `.netlify/` link can remain pointed at the development site.
+
+One-time setup:
+
+1. Sign in to the production Netlify account and open the existing production project. Disable Git auto-deploys if releases should only happen through this workflow.
+2. Copy its **Project ID** from **Project configuration → General → Project details → Project information**.
+3. Create a personal access token while signed in to the production account. Treat it as a password; do not commit it or paste it into chat.
+4. In `timhurt/apm-production`, open **Settings → Environments** and create an environment named `production`. A repository and an environment are separate; creating the repository does not create this environment. Add these environment secrets:
+   - `NETLIFY_PRODUCTION_AUTH_TOKEN`: the production account's access token.
+   - `NETLIFY_PRODUCTION_SITE_ID`: the production project's ID.
+5. Restrict that environment to `main`. Add required reviewers if your GitHub plan supports them and you want release approval.
+6. Add a production remote with `git remote add production https://github.com/timhurt/apm-production.git` (once), then commit the site source and workflow and run `git push production main` so GitHub can run it. The existing `apm` remote continues to target the development repository.
+
+To release:
+
+1. Commit the changes you want to publish, then run `git push production main`. Only committed changes are pushed.
+2. In `timhurt/apm-production`, open **Actions → Deploy production → Run workflow**, select `main`, and run it.
+3. Check the deployment URL in the job output and verify the live site. Runs from other branches are skipped.
+
+The workflow installs dependencies, builds `dist/`, and explicitly deploys to the production project with `--prod`. It does not require switching your local Netlify login or relinking this directory. Configure the production domain and DNS in the production Netlify project. To roll back, republish a previous successful deploy from that project's Netlify dashboard.
+
+Netlify references: [CLI authentication and project IDs](https://docs.netlify.com/api-and-cli-guides/cli-guides/get-started-with-cli/), [deploy command](https://cli.netlify.com/commands/deploy/).
+
 ### Cloudflare Pages
 - Framework preset: `None`
 - Build command: `npm run build`
