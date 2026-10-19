@@ -12,8 +12,10 @@
   },
   "scripts": {
     "build": "node scripts/build-static.mjs",
+    "build:production": "node scripts/build-static.mjs --environment=production",
+    "build:staging": "node scripts/build-static.mjs --environment=staging",
     "serve:dist": "live-server dist --port=8080 --quiet",
-    "watch": "chokidar \"*.html\" \"css/**/*\" \"js/**/*\" \"img/**/*\" \"partials/**/*\" \"public/**/*\" -i \"dist/**\" --initial -c \"npm run build\"",
+    "watch": "chokidar \"*.html\" \"css/**/*\" \"js/**/*\" \"img/**/*\" \"partials/**/*\" \"public/**/*\" -i \"dist/**\" --initial -c \"npm run build -- --environment=development\"",
     "dev": "concurrently -k -n WATCH,SERVER -c yellow,cyan \"npm:watch\" \"npm:serve:dist\"",
     "clean": "rm -rf dist",
     "preview": "python3 -m http.server 8080 --directory dist",
