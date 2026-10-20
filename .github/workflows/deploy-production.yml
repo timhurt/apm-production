@@ -43,3 +43,9 @@ jobs:
             exit 1
           fi
           npx --yes netlify-cli@23 deploy --dir=dist --no-build --prod --site "$NETLIFY_SITE_ID" --message "GitHub Actions production release $GITHUB_SHA"
+
+      - name: Match RSVP and inquiry email notifications
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
+        run: node scripts/sync-form-notifications.mjs

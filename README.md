@@ -57,6 +57,8 @@ Optional local preview of built output:
 
 ### Production Netlify account
 
+Homepage RSVP (`email-signup`) and member inquiries (`membership-inquiry`) both submit through Netlify Forms and redirect to `thank-you.html`. Email delivery is configured in Netlify, not the browser. After publishing, the production workflow runs `scripts/sync-form-notifications.mjs` to match RSVP notifications to the inquiry form's email destinations without duplicating site-wide rules. If a project has no inquiry email notification yet, it creates one for `matt@anchorpoint.med`, the verified development destination. The same script can be run for dev with that site's `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID`.
+
 Userback is included only in development and staging builds. `npm run dev` enables it locally. Set the development/staging Netlify project's build command to `npm run build:staging`. Both `npm run build` (default) and `npm run build:production` exclude Userback from generated HTML; the production workflow explicitly uses `build:production`. For other build integrations, `SITE_ENV=staging` enables the widget with `npm run build`.
 
 The `Deploy production` GitHub Actions workflow (`.github/workflows/deploy-production.yml`) publishes `main` from `timhurt/apm-production` to the existing production Netlify project when manually triggered. Runs in other repositories are skipped. It uses its own credentials and project ID, so the local `.netlify/` link can remain pointed at the development site.
