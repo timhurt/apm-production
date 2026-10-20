@@ -181,3 +181,47 @@ test('inquiry sending preserves scroll and waits before confirmation', async ({p
  await expect(page).toHaveURL(/thank-you.html$/);
  expect(Date.now()-started).toBeGreaterThanOrEqual(2400);
 });
+
+test('office gallery opens, cycles, swipes and restores focus', async ({page}) => {
+  await page.goto('/membership.html');
+  const opener = page.getByRole('button', {name: 'View photos of our office'});
+  await opener.click();
+  const dialog = page.getByRole('dialog', {name: 'Inside Anchor Point'});
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', {name: 'Next office photo'}).click();
+  await expect(dialog.locator('figcaption')).toHaveText('Office · 2 of 3');
+  await page.keyboard.press('ArrowRight');
+  await expect(dialog.locator('figcaption')).toHaveText('Exam room · 3 of 3');
+  await dialog.getByRole('button', {name: 'Next office photo'}).click();
+  await expect(dialog.locator('figcaption')).toHaveText('Waiting area · 1 of 3');
+  await dialog.getByRole('button', {name: 'Previous office photo'}).click();
+  await expect(dialog.locator('figcaption')).toHaveText('Exam room · 3 of 3');
+  const bounds = await dialog.locator('img').boundingBox();
+  await page.mouse.move(bounds.x + bounds.width * .7, bounds.y + bounds.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(bounds.x + bounds.width * .3, bounds.y + bounds.height / 2);
+  await page.mouse.up();
+  await expect(dialog.locator('figcaption')).toHaveText('Waiting area · 1 of 3');
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(opener).toBeFocused();
+  await opener.click();
+  await dialog.getByRole('button', {name: 'Next office photo'}).click();
+  await dialog.getByRole('button', {name: 'Close office photos'}).click();
+  await expect(opener.locator('img')).toHaveAttribute('src', 'img/anchorpoint-office.jpg');
+  await opener.click();
+  await expect(dialog.locator('figcaption')).toHaveText('Office · 2 of 3');
+});
+
+test('office photo expands and collapses with motion enabled', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('/membership.html');
+  await page.getByRole('button', {name: 'View photos of our office'}).click();
+  const dialog = page.getByRole('dialog', {name: 'Inside Anchor Point'});
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('.office-gallery-transition')).toHaveCount(0);
+  await expect(dialog.locator('img')).toBeVisible();
+  await dialog.getByRole('button', {name: 'Close office photos'}).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page.locator('.office-gallery-transition')).toHaveCount(0);
+});

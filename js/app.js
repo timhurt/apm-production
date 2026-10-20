@@ -543,6 +543,121 @@ async function loadGlobalPartials() {
   await Promise.all(tasks);
 }
 
+function initOfficeGallery() {
+  const opener = document.querySelector('.membership-gallery-open');
+  const dialog = document.querySelector('#office-gallery');
+  if (!opener || !dialog) return;
+  const photos = [
+    {src: 'img/anchorpoint-waiting.jpg', label: 'Waiting area'},
+    {src: 'img/anchorpoint-office.jpg', label: 'Office'},
+    {src: 'img/anchorpoint-exam.jpg', label: 'Exam room'}
+  ];
+  const photo = dialog.querySelector('img');
+  const caption = dialog.querySelector('figcaption');
+  let index = 0;
+  let start = null;
+  let previousOverflow;
+  let transitioning = false;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const frame = opener.closest('.membership-waiting-photo');
+  async function animateFrame(expanding) {
+    if (reducedMotion.matches) return;
+    const small = frame.getBoundingClientRect();
+    const source = opener.querySelector('img').getBoundingClientRect();
+    const large = photo.getBoundingClientRect();
+    const layer = document.createElement('div');
+    layer.className = 'office-gallery-transition';
+    layer.setAttribute('aria-hidden', 'true');
+    const copy = photo.cloneNode();
+    copy.removeAttribute('id');
+    layer.append(copy);
+    dialog.append(layer);
+    photo.style.visibility = 'hidden';
+    dialog.classList.add('is-transitioning');
+    const frameKeys = [
+      {left: `${small.left}px`, top: `${small.top}px`, width: `${small.width}px`, height: `${small.height}px`, borderRadius: getComputedStyle(frame).borderRadius},
+      {left: `${large.left}px`, top: `${large.top}px`, width: `${large.width}px`, height: `${large.height}px`, borderRadius: '0px'}
+    ];
+    const imageKeys = [
+      {left: `${source.left - small.left}px`, top: `${source.top - small.top}px`, width: `${source.width}px`, height: `${source.height}px`},
+      {left: '0px', top: '0px', width: `${large.width}px`, height: `${large.height}px`}
+    ];
+    const options = {duration: 480, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both'};
+    if (!expanding) { frameKeys.reverse(); imageKeys.reverse(); }
+    try {
+      await Promise.all([
+        layer.animate(frameKeys, options).finished,
+        copy.animate(imageKeys, options).finished
+      ]);
+    } finally {
+      layer.remove();
+      photo.style.visibility = '';
+      dialog.classList.remove('is-transitioning');
+    }
+  }
+  async function closeGallery() {
+    if (transitioning || !dialog.open) return;
+    transitioning = true;
+    try {
+      const preview = opener.querySelector('img');
+      preview.src = photos[index].src;
+      preview.alt = photo.alt;
+      await preview.decode().catch(() => {});
+      await animateFrame(false);
+      dialog.close();
+    } finally { transitioning = false; }
+  }
+  function showPhoto(next) {
+    index = (next + photos.length) % photos.length;
+    photo.src = photos[index].src;
+    photo.alt = `The ${photos[index].label.toLowerCase()} at Anchor Point Medicine`;
+    caption.textContent = `${photos[index].label} · ${index + 1} of ${photos.length}`;
+  }
+  opener.hidden = false;
+  opener.addEventListener('click', async () => {
+    if (transitioning) return;
+    transitioning = true;
+    showPhoto(index);
+    previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialog.showModal();
+    try {
+      await photo.decode().catch(() => {});
+      await animateFrame(true);
+    } finally { transitioning = false; }
+  });
+  dialog.querySelector('[data-gallery-close]').addEventListener('click', closeGallery);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); closeGallery(); });
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) closeGallery();
+  });
+  dialog.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow;
+    start = null;
+    opener.focus({preventScroll: true});
+  });
+  dialog.querySelector('[data-gallery-prev]').addEventListener('click', () => showPhoto(index - 1));
+  dialog.querySelector('[data-gallery-next]').addEventListener('click', () => showPhoto(index + 1));
+  dialog.addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    showPhoto(index + (event.key === 'ArrowRight' ? 1 : -1));
+  });
+  photo.addEventListener('pointerdown', event => {
+    if (!event.isPrimary || event.button !== 0) return;
+    start = {x: event.clientX, y: event.clientY};
+    photo.setPointerCapture(event.pointerId);
+  });
+  photo.addEventListener('pointerup', event => {
+    if (!start) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    start = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(index + (dx < 0 ? 1 : -1));
+  });
+  photo.addEventListener('pointercancel', () => { start = null; });
+}
+
 async function initPage() {
   try {
     await loadGlobalPartials();
@@ -557,6 +672,7 @@ async function initPage() {
   initMobileFooterDock();
   initFaqParallax();
   initMembershipPhotoParallax();
+  initOfficeGallery();
   initRevealAnimations();
   initSignupForms();
   initOnboardingForm();
