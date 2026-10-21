@@ -107,24 +107,6 @@ test('FAQ expands with the keyboard', async ({page}) => {
  await page.keyboard.press('Space');
  await expect(page.locator('details').nth(1)).not.toHaveAttribute('open','');
 });
-test('signup reports errors and redirects only after successful submission', async ({page}) => {
- await page.goto('/');
- await page.getByRole('button',{name:'Reserve My Spot'}).click();
- await expect(page.locator('#email')).toBeFocused();
- await expect(page.locator('#email')).toHaveAttribute('aria-invalid','true');
- await page.locator('#email').fill('test@example.com');
- let submission;
- await page.route('http://127.0.0.1:8091/',r=>{
-  if(r.request().method()!=='POST') return r.continue();
-  submission=new URLSearchParams(r.request().postData());
-  return r.fulfill({status:200,body:'OK'});
- });
- await page.getByRole('button',{name:'Reserve My Spot'}).click();
- await expect(page).toHaveURL(/thank-you.html$/);
- expect(submission.get('form-name')).toBe('email-signup');
- expect(submission.get('email')).toBe('test@example.com');
- expect(submission.get('bot-field')).toBe('');
-});
 test('reduced motion disables the sticky founder image', async ({page})=>{
  await page.emulateMedia({reducedMotion:'no-preference'});
  await page.goto('/');

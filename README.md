@@ -57,7 +57,7 @@ Optional local preview of built output:
 
 ### Production Netlify account
 
-Homepage RSVP (`email-signup`) and member inquiries (`membership-inquiry`) both submit through Netlify Forms and redirect to `thank-you.html`. Email delivery is configured in Netlify, not the browser. After publishing, the production workflow runs `scripts/sync-form-notifications.mjs` to match RSVP notifications to the inquiry form's email destinations without duplicating site-wide rules. If a project has no inquiry email notification yet, it creates one for `matt@anchorpoint.med`, the verified development destination. The same script can be run for dev with that site's `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID`.
+The homepage call button links directly to Dr. Speicher’s Google appointment calendar. Member inquiries (`membership-inquiry`) submit through Netlify Forms and redirect to `thank-you.html`. The production workflow enables form detection and runs `scripts/sync-form-notifications.mjs` to ensure inquiry email notifications exist, defaulting to `matt@anchorpoint.med` if none are configured.
 
 Userback is included only in development and staging builds. `npm run dev` enables it locally. Set the development/staging Netlify project's build command to `npm run build:staging`. Both `npm run build` (default) and `npm run build:production` exclude Userback from generated HTML; the production workflow explicitly uses `build:production`. For other build integrations, `SITE_ENV=staging` enables the widget with `npm run build`.
 

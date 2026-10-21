@@ -19,7 +19,7 @@ if (process.argv.includes('--prepare')) {
   process.exit(0);
 }
 const forms = await api(`sites/${siteId}/forms`);
-for (const name of ['membership-inquiry', 'email-signup']) {
+for (const name of ['membership-inquiry']) {
   if (!forms.some(form => form.name === name)) throw new Error(`Netlify has not detected ${name}. Enable form detection and redeploy.`);
 }
 let hooks = await api(`hooks?site_id=${encodeURIComponent(siteId)}`);
@@ -39,12 +39,4 @@ if (!inquiry.length) {
   hooks.push(hook);
   inquiry = [hook];
 }
-for (const source of inquiry) {
-  if (!source.data?.email) throw new Error('Inquiry notification has no email destination.');
-  if (emails().some(hook => covers(hook, 'email-signup') && hook.data.email === source.data.email)) continue;
-  hooks.push(await api(`hooks?site_id=${encodeURIComponent(siteId)}`, {
-    site_id: siteId, form_id: forms.find(form => form.name === 'email-signup').id, type: 'email',
-    event: 'submission_created', data: source.data
-  }));
-}
-console.log('RSVP email notifications match membership inquiry notifications.');
+console.log('Membership inquiry email notifications are configured.');
