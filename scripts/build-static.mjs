@@ -5,7 +5,7 @@ const rootDir = process.cwd();
 const distDir = path.join(rootDir, 'dist');
 const partialsDir = path.join(rootDir, 'partials');
 
-const pages = ['index.html', 'about.html', 'services.html', 'membership.html', 'faq.html', 'private-primary-care-bethesda.html', 'onboarding.html', 'thank-you.html', 'privacy.html', 'terms.html'];
+const pages = ['index.html', 'about.html', 'services.html', 'membership.html', 'faq.html', 'private-primary-care-bethesda.html', 'onboarding.html', 'thank-you.html', 'privacy.html', 'terms.html', 'membership-landing.html'];
 const staticDirs = ['css', 'js', 'img'];
 const environment = process.argv.find(arg => arg.startsWith('--environment='))?.split('=')[1]
   || process.env.SITE_ENV || 'production';

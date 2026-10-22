@@ -39,4 +39,15 @@ if (!inquiry.length) {
   hooks.push(hook);
   inquiry = [hook];
 }
-console.log('Membership inquiry email notifications are configured.');
+const landing = forms.find(form => form.name === 'landing-inquiry');
+if (landing) {
+  for (const source of inquiry) {
+    if (!source.data?.email) throw new Error('Inquiry notification has no email destination.');
+    if (emails().some(hook => covers(hook, 'landing-inquiry') && hook.data.email === source.data.email)) continue;
+    hooks.push(await api(`hooks?site_id=${encodeURIComponent(siteId)}`, {
+      site_id: siteId, form_id: landing.id, type: 'email',
+      event: 'submission_created', data: source.data
+    }));
+  }
+}
+console.log('Membership and landing inquiry email notifications are configured.');
