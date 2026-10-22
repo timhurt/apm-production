@@ -22,16 +22,37 @@
 .article-body p a, .article-address a { text-decoration: underline; text-underline-offset: 4px; }
 .article-pullquote { margin: 44px 0; padding: 8px 0 8px 28px; border-left: 2px solid var(--academy-gold); }
 .article-pullquote p { margin: 0; color: var(--command-blue); font-family: var(--serif); font-size: clamp(1.9rem, 3vw, 2.65rem); font-style: italic; line-height: 1.25; }
+.article-pullquote--quiet p { font-size: clamp(1.5rem, 2.2vw, 2rem); }
 .article-care-steps { margin: 28px 0; padding-left: 24px; }
 .article-care-steps li { padding-left: 10px; margin-bottom: 20px; }
 .article-care-steps li::marker { color: var(--copper); font-weight: 600; }
 .article-care-steps strong { color: var(--command-blue); }
-.article-service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; padding-left: 20px; margin-block: 24px; }
+.article-service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; padding-left: 0; margin-block: 24px; list-style: none; }
+.article-service-list li { display: flex; align-items: flex-start; gap: 12px; }
+.article-service-list .bi { flex: 0 0 22px; color: var(--copper); font-size: 1.15rem; line-height: 1.65; }
 .article-address { font-size: .9rem; font-style: normal; line-height: 1.8; }
 .article-body .article-signoff { margin-top: 36px; color: var(--command-blue); font-family: var(--serif); font-size: 1.8rem; line-height: 1.2; }
 .article-signoff span { display: block; margin-top: 8px; color: var(--muted); font-family: var(--sans); font-size: .78rem; }
 .article-contact { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
 .article-contact .button-primary { margin-top: 0; text-align: center; }
+.article-comparison { margin-block: 48px; }
+.article-comparison .eyebrow { font-size: .7rem; line-height: 1.5; }
+.article-comparison-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; margin-block: 28px 20px; }
+.article-comparison-table { width: 100%; min-width: 680px; border-collapse: collapse; background: var(--card); text-align: left; font-size: .85rem; line-height: 1.65; }
+.article-comparison-table caption { padding: 16px 20px; text-align: left; font-size: .8rem; font-weight: 600; background: var(--command-blue); color: var(--sailcloth); }
+.article-comparison-table th, .article-comparison-table td { padding: 18px; vertical-align: top; border-bottom: 1px solid var(--line); }
+.article-comparison-table thead { background: var(--command-blue); color: var(--sailcloth); }
+.article-comparison-table thead th { font-weight: 600; }
+.article-comparison-table th + th, .article-comparison-table td { border-left: 1px solid var(--line); }
+.article-comparison-table tbody th { width: 23%; color: var(--command-blue); font-weight: 600; }
+.article-comparison-table td { width: 38.5%; }
+.article-comparison-table td:last-child { background: rgba(200,169,107,.1); }
+.article-comparison-table tbody tr:last-child > * { border-bottom: 0; }
+.article-body .comparison-afterword { max-width: 68ch; margin-top: 16px; padding-left: 14px; border-left: 1px solid var(--line); font-size: .75rem; font-style: italic; line-height: 1.65; color: var(--muted); }
+.article-body .comparison-scroll-hint { display: none; font-size: .75rem; color: var(--muted); }
+@media (max-width: 760px) {
+  .article-body .comparison-scroll-hint { display: block; }
+}
 @media (max-width: 900px) {
   .concierge-article { padding-block: 48px 64px; }
   .article-layout { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }

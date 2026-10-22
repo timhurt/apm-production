@@ -33,11 +33,15 @@
       <div class="container onboarding-layout">
         <div class="editorial-copy onboarding-intro">
           <h1>Drop a line.</h1>
-          <a class="button-gold" href="https://calendar.app.google/kogvg1zvvhRYvxt47">Book a 15-minute call with Dr. Speicher</a>
-          <ul class="onboarding-contact" role="list">
-            <li><i class="bi bi-telephone" aria-hidden="true"></i><a href="tel:+13018952626">(301) 895-2626</a></li>
-            <li><i class="bi bi-envelope" aria-hidden="true"></i><a href="mailto:info@anchorpoint.med">info@anchorpoint.med</a></li>
-          </ul>
+          <a class="editorial-link contact-booking" href="https://calendar.app.google/kogvg1zvvhRYvxt47">Book a 15-minute intro call <span aria-hidden="true">↗</span></a>
+          <section class="contact-visit" aria-labelledby="visit-heading">
+            <h2 id="visit-heading" class="eyebrow">Visit Us</h2>
+            <address>
+              <a href="https://www.google.com/maps/search/5411+W.+Cedar+Lane,+Suite+109A,+Bethesda,+MD+20814?entry=gmail&amp;source=g"><i class="bi bi-geo-alt" aria-hidden="true"></i><span>5411 W Cedar Ln, Suite 109A<br>Bethesda, MD 20814</span></a>
+              <a href="tel:+13018952626"><i class="bi bi-telephone" aria-hidden="true"></i><span>(301) 895-2626</span></a>
+              <a href="mailto:info@anchorpoint.med"><i class="bi bi-envelope" aria-hidden="true"></i><span>info@anchorpoint.med</span></a>
+            </address>
+          </section>
 
           <figure class="page-editorial-image page-editorial-image--inset"><img src="img/anchorpoint-books.png" width="1254" height="1254" alt="A stethoscope resting on clothbound books" loading="lazy" decoding="async" /></figure>
         </div>
@@ -46,7 +50,7 @@
             <input type="hidden" name="form-name" value="membership-inquiry" />
             <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
             <fieldset aria-describedby="inquiry-notice contact-instructions">
-              <legend>Membership Inquiry</legend>
+              <!-- <legend>Membership Inquiry</legend> -->
               <div class="onboarding-fields">
                 <div><label for="first-name">First name *</label><input id="first-name" name="firstName" autocomplete="given-name" required maxlength="100" placeholder=" " /></div>
                 <div><label for="last-name">Last name *</label><input id="last-name" name="lastName" autocomplete="family-name" required maxlength="100" placeholder=" " /></div>

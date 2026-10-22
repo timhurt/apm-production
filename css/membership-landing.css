@@ -181,3 +181,7 @@
   .theme-dark .site-header .site-nav { background: var(--command-blue); border-color: rgba(245,241,232,.2); }
   .theme-dark .landing-intro { padding-top: 28px; }
 }
+.landing-actions > .cta-actions { margin-top: 0; }
+@media (max-width: 900px) {
+  .landing-actions .cta-actions { flex-direction: column; align-items: stretch; }
+}
