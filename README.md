@@ -91,3 +91,11 @@ Netlify references: [CLI authentication and project IDs](https://docs.netlify.co
 
 ## Before launch
 Replace image placeholders, connect inquiry forms, and replace the LinkedIn/Instagram placeholder links in the footer with official profile URLs.
+
+## Search and contact content
+
+Production canonical URLs, Open Graph URLs, `public/sitemap.xml`, and `public/robots.txt` use `https://anchorpoint.med`. The sitemap excludes the ad landing page and submission confirmation because they are marked `noindex`. Netlify serves clean paths such as `/concierge-medicine-bethesda` from the corresponding HTML files.
+
+The homepage contains MedicalClinic and Physician JSON-LD with Suite 109A, the practice phone, and service areas. Opening hours are deliberately omitted until confirmed. FAQ JSON-LD mirrors the visible questions and answers in `faq.html`; update both when changing FAQ content. FAQ markup does not imply eligibility for a Google rich result.
+
+`concierge-medicine-bethesda.html` is a replacement draft built from existing practice copy and the monthly check-in details. The previous live page returned HTTP 403 during retrieval; its original text has not yet been imported or compared.

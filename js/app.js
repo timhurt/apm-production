@@ -658,6 +658,50 @@ function initOfficeGallery() {
   photo.addEventListener('pointercancel', () => { start = null; });
 }
 
+function initMapPointerAddress() {
+  const map = document.querySelector('.nearby-care-map');
+  const label = map?.querySelector('.map-pointer-address');
+  if (!label) return;
+  function position(x, y) {
+    label.hidden = false;
+    const bounds = label.getBoundingClientRect();
+    const left = x + 16 + bounds.width > innerWidth - 12 ? x - bounds.width - 16 : x + 16;
+    const top = y + 16 + bounds.height > innerHeight - 12 ? y - bounds.height - 16 : y + 16;
+    label.style.left = `${Math.max(12, left)}px`;
+    label.style.top = `${Math.max(12, top)}px`;
+  }
+  const hide = () => { label.hidden = true; };
+  map.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'touch') position(event.clientX, event.clientY);
+  });
+  map.addEventListener('pointerleave', hide);
+  map.addEventListener('pointercancel', hide);
+  map.addEventListener('focus', () => {
+    const bounds = map.getBoundingClientRect();
+    position(bounds.left, bounds.top);
+  });
+  map.addEventListener('blur', hide);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
+  window.addEventListener('scroll', hide, { passive: true });
+  window.addEventListener('resize', hide);
+}
+
+function initLandingPortraitAlignment() {
+  const hero = document.querySelector('.members-landing .landing-intro');
+  const firstLink = document.querySelector('.site-nav a');
+  const header = document.querySelector('.site-header');
+  if (!hero || !firstLink || !header) return;
+  const desktop = matchMedia('(min-width: 901px)');
+  function align() {
+    if (desktop.matches) hero.style.setProperty('--landing-nav-left', `${firstLink.getBoundingClientRect().left}px`);
+    else hero.style.removeProperty('--landing-nav-left');
+  }
+  align();
+  new ResizeObserver(align).observe(header);
+  window.addEventListener('resize', align, { passive: true });
+  document.fonts.ready.then(align);
+}
+
 async function initPage() {
   try {
     await loadGlobalPartials();
@@ -668,11 +712,13 @@ async function initPage() {
   setActiveNavLink();
   initNav();
   initNavIndicator();
+  initLandingPortraitAlignment();
   initScrollingLogo();
   initMobileFooterDock();
   initFaqParallax();
   initMembershipPhotoParallax();
   initOfficeGallery();
+  initMapPointerAddress();
   initRevealAnimations();
   initSignupForms();
   initOnboardingForm();

@@ -2,10 +2,11 @@ import { test, expect } from '@playwright/test';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const axePath = require.resolve('axe-core/axe.min.js');
-const pages = ['index.html','about.html','services.html','membership.html','faq.html','private-primary-care-bethesda.html','onboarding.html','privacy.html','terms.html','thank-you.html'];
+const pages = ['index.html','about.html','services.html','membership.html','faq.html','private-primary-care-bethesda.html','onboarding.html','privacy.html','terms.html','thank-you.html','concierge-medicine-bethesda.html','membership-landing.html'];
 test('family inquiry preselects Family and limits the counter to four', async ({page}) => {
   await page.goto('/membership.html');
-  await page.getByRole('link', {name: 'Family Inquiry', exact: true}).click();
+  await expect(page.locator('#family .pricing-button')).toHaveAttribute('href', 'https://calendar.app.google/kogvg1zvvhRYvxt47');
+  await page.goto('/onboarding.html?membership=family');
   await expect(page.locator('#membership-type')).toHaveValue('Family');
   const count = page.getByRole('spinbutton', {name: 'Family Members'});
   const plus = page.getByRole('button', {name: 'Increase family members'});

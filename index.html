@@ -7,16 +7,18 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-light-180x180.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon-dark-180x180.png" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://anchorpoint.med/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A small, membership-based practice where your doctor knows you, answers your call, and checks in on you every month, even when you’re healthy." />
+  <meta property="og:url" content="https://anchorpoint.med/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Anchor Point Medicine" />
-  <meta property="og:title" content="Primary Care in Bethesda | Anchor Point Medicine" />
+  <meta property="og:title" content="Concierge Doctor in Bethesda, MD | Anchor Point Medicine" />
   <meta property="og:description" content="A small, membership-based practice where your doctor knows you, answers your call, and checks in on you every month, even when you’re healthy." />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Primary Care in Bethesda | Anchor Point Medicine" />
+  <meta name="twitter:title" content="Concierge Doctor in Bethesda, MD | Anchor Point Medicine" />
   <meta name="twitter:description" content="A small, membership-based practice where your doctor knows you, answers your call, and checks in on you every month, even when you’re healthy." />
-  <title>Primary Care in Bethesda | Anchor Point Medicine</title>
+  <title>Concierge Doctor in Bethesda, MD | Anchor Point Medicine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600&family=La+Belle+Aurore&display=swap" rel="stylesheet">
@@ -30,16 +32,43 @@
       "@type": "MedicalClinic",
       "@id": "#anchor-point-medicine",
       "name": "Anchor Point Medicine",
-      "telephone": "+1-301-895-2626",
+      "telephone": "(301) 895-2626",
       "email": "info@anchorpoint.med",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "5411 W Cedar Lane",
+        "streetAddress": "5411 W. Cedar Lane, Suite 109A",
         "addressLocality": "Bethesda",
         "addressRegion": "MD",
         "postalCode": "20814",
         "addressCountry": "US"
-      }
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Bethesda"
+        },
+        {
+          "@type": "City",
+          "name": "Chevy Chase"
+        },
+        {
+          "@type": "City",
+          "name": "Potomac"
+        },
+        {
+          "@type": "City",
+          "name": "North Bethesda"
+        },
+        {
+          "@type": "City",
+          "name": "Kensington"
+        },
+        {
+          "@type": "City",
+          "name": "Rockville"
+        }
+      ],
+      "hasMap": "https://www.google.com/maps/search/5411+W.+Cedar+Lane,+Suite+109A,+Bethesda,+MD+20814?entry=gmail&source=g"
     },
     {
       "@type": "Physician",
@@ -51,13 +80,13 @@
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "5411 W Cedar Lane",
+        "streetAddress": "5411 W. Cedar Lane, Suite 109A",
         "addressLocality": "Bethesda",
         "addressRegion": "MD",
         "postalCode": "20814",
         "addressCountry": "US"
       },
-      "telephone": "+1-301-895-2626"
+      "telephone": "(301) 895-2626"
     }
   ]
 }
@@ -74,12 +103,10 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <img class="hero-logo" src="img/anchorpoint-logo-lg.svg" width="2387" height="576" alt="Anchor Point Medicine" />
-          <h1><span class="hero-headline-line">Primary care from a former</span> <span class="hero-headline-line">White House physician, right</span> <span class="hero-headline-line">here in Bethesda, MD.</span></h1>
+          <h1><span class="hero-headline-line">Concierge care from a former</span> <span class="hero-headline-line">White House physician, right</span> <span class="hero-headline-line">here in Bethesda, MD.</span></h1>
           <p class="lede">A small, membership-based practice where your doctor knows you, answers your call, and checks in on you every month, even when you’re healthy.</p>
           <a class="button-primary hero-call-cta" href="https://calendar.app.google/kogvg1zvvhRYvxt47">Book a 15-minute call with Dr. Speicher</a>
-          <div class="social-proof">
-            <p>First 75 patients receive <strong>10% off</strong> with continuous enrollment.</p>
-          </div>
+          <a class="inquiry-secondary" href="onboarding.html#onboarding-form">Prefer to write? Send a note instead.</a>
         </div>
 
         <div class="hero-visual reveal">
@@ -114,7 +141,10 @@
           </figure>
           <div class="editorial-note">
             <h3>Now open to new patients and families.</h3>
-            <a class="editorial-link" href="about.html">Inquire About Membership <span aria-hidden="true">↗</span></a>
+            <div class="letter-contact-links">
+              <a class="editorial-link" href="https://calendar.app.google/kogvg1zvvhRYvxt47">Book a 15-minute call with Dr. Speicher <span aria-hidden="true">↗</span></a>
+              <a class="editorial-link" href="onboarding.html#onboarding-form">Prefer to write? Send a note instead. <span aria-hidden="true">↗</span></a>
+            </div>
           </div>
         </div>
       </div>
@@ -126,7 +156,7 @@
         <div class="editorial-copy">
           <h2 id="benefits-heading">Personal and <em>proactive</em>.</h2>
           <p>Members receive a yearly <strong>Comprehensive Health Review</strong> covering history, risks, screenings, medications, fitness priorities and goals. Dr. Speicher creates a <strong>personalized plan</strong> with ongoing attention to results and prevention.</p>
-          <a class="editorial-link" href="services.html">Explore All Services <span aria-hidden="true">↗</span></a>
+          <a class="button-primary" href="services.html">See Our Services</a>
         </div>
         <ol class="editorial-benefits" role="list">
           <li class="reveal"><span class="benefit-number" aria-hidden="true">01</span><div><h3>Annual Review</h3><p>A comprehensive, unhurried review of current health, risk, prevention, and personal goals.</p></div></li>
@@ -137,79 +167,26 @@
       </div>
     </section>
 
-    <!-- <section id="features" class="editorial-section" aria-labelledby="services-heading">
-      <div class="container">
-        <div class="editorial-services-intro editorial-copy reveal">
-          <div>
-            <p class="eyebrow">Services</p>
-            <h2 id="services-heading">Care for the <em>everyday.</em></h2>
-          </div>
-          <p>Primary and preventive care, help when illness or injury strikes, and guidance through the wider healthcare system.</p>
+<section class="editorial-section" aria-labelledby="urgent-care-heading">
+      <div class="container editorial-copy">
+        <p class="eyebrow">Care when and where you need it</p>
+        <h2 id="urgent-care-heading">Same-day care from a doctor who knows you.</h2>
+        <div class="nearby-care-grid">
+          <div class="nearby-care-copy">
+        <p>Same-day or next-day visits for illness and injury, with in-office stitches, ultrasound and joint injections when appropriate.</p>
+        <p class="service-area">Serving Bethesda, Chevy Chase, Potomac, North Bethesda, Kensington, and Rockville</p>
+        <div class="letter-contact-links">
+          <a class="editorial-link" href="membership.html">Compare membership plans <span aria-hidden="true">↗</span></a>
+          <a class="editorial-link" href="onboarding.html#onboarding-form">Send an inquiry form <span aria-hidden="true">↗</span></a>
         </div>
-        <ol class="editorial-services" role="list">
-          <li class="reveal"><span class="service-number" aria-hidden="true">01</span><p>Primary and preventive care with comprehensive health assessments and personalized wellness plans</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">02</span><p>Acute and urgent care with same- or next-day appointments</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">03</span><p>Primary care for the whole family, including adults and children</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">04</span><p>Chronic disease management, medication refills, and medication optimization</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">05</span><p>Care coordination and specialist referrals</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">06</span><p>Independent review and interpretation of outside labs and imaging</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">07</span><p>Hospital and emergency department medical logistics and coordination</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">08</span><p>Travel medicine guidance</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">09</span><p>In-office procedures including laceration repair, abscess drainage, joint injections, and ear lavage</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">10</span><p>Point-of-care ultrasound (POCUS)</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">11</span><p>ECG (EKG) and selected in-office diagnostic testing</p></li>
-          <li class="reveal"><span class="service-number" aria-hidden="true">12</span><p>House calls when needed</p></li>
-        </ol>
-        <div class="editorial-copy">
-          <div class="family-care">
-            <div class="editorial-note">
-              <h3>Concierge care for individuals and families.</h3>
-              <p>A father and physician who understands the household as well as each person.</p>
-              <a class="editorial-link" href="services.html">Explore Care &amp; Services <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="family-care-reveal reveal">
-              <figure class="family-care-photo"><img src="img/anchorpoint-scrubs.png" width="1536" height="1024" alt="A white coat with an embroidered compass beside a stethoscope" loading="lazy" decoding="async" /></figure>
-            </div>
           </div>
+          <a class="nearby-care-map" href="https://www.google.com/maps/search/5411+W.+Cedar+Lane,+Suite+109A,+Bethesda,+MD+20814?entry=gmail&amp;source=g" aria-label="View directions to Anchor Point Medicine, 5411 W. Cedar Lane, Suite 109A, Bethesda, MD 20814">
+            <img src="img/anchorpoint-map.jpg" width="1080" height="620" alt="Map showing Anchor Point Medicine on West Cedar Lane near NIH in Bethesda" loading="lazy" decoding="async" />
+            <span class="map-pointer-address" aria-hidden="true" hidden>5411 W. Cedar Lane, Suite 109A<br>Bethesda, MD 20814</span>
+          </a>
         </div>
       </div>
-    </section> -->
-
-    <!-- <section id="membership" class="editorial-section" aria-labelledby="membership-heading">
-      <div class="container editorial-membership-layout">
-        <div class="editorial-copy reveal">
-          <p class="eyebrow">Membership</p>
-          <h2 id="membership-heading">A simpler model of <em>private care.</em></h2>
-          <p>Membership supports a smaller practice, more physician time, and direct access—not a fee on top of routine insurance billing for included visits. No copays for included membership visits.</p>
-        </div>
-        <div class="editorial-copy reveal">
-          <table class="editorial-membership-table">
-            <caption>Founding Membership</caption>
-            <thead>
-              <tr><th scope="col">Individual</th><th scope="col">Family</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong class="editorial-membership-price">$3,800</strong><span class="editorial-membership-label">per year</span></td>
-                <td><strong class="editorial-membership-price">$8,300</strong><span class="editorial-membership-label">per year</span></td>
-              </tr>
-              <tr>
-                <td>One adult member</td>
-                <td>Two adults + children under 27yo</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="membership-cta-row">
-            <a class="button-primary" href="onboarding.html">Apply Today</a>
-            <a class="button-outline" href="membership.html">More Details</a>
-          </div>
-          <div class="editorial-note editorial-note--founding">
-            <h3><i class="bi bi-compass" aria-hidden="true"></i> Founding Circle</h3>
-            <p>First 75 enrolled patients: rates fixed for two years, then 10% off standard rates with continuous enrollment.</p>
-          </div>
-        </div>
-      </div>
-    </section> -->
+    </section>
 
     <section class="office-gallery reveal" aria-label="Inside the Anchor Point office">
       <div class="container office-gallery-grid">
@@ -233,35 +210,18 @@
         <div class="faq-list reveal">
           <details class="faq-item"><summary>Do I still need health insurance?</summary><div><p>Yes. Membership does not replace health insurance. Keep coverage for specialists, hospital care, medications, and other services. We provide transparent rates with no copays for included visits.</p></div></details>
           <details class="faq-item"><summary>Do you care for children?</summary><div><p>Yes. Adults and children are welcome. You get one physician who understands the household, and who can help when a concern affects not just one chart, but a spouse, child, parent, and the rest of the family around them.</p></div></details>
-          <details class="faq-item"><summary>What does membership include?</summary><div><p>Primary and preventive care, same- or next-day appointments, direct physician access, selected office procedures, and care coordination. <a href="membership.html">Explore membership details.</a></p></div></details>
+          <details class="faq-item"><summary>What does membership include?</summary><div><p>Primary and preventive care, same-day or next-day appointments, direct physician access, selected office procedures, and care coordination. <a href="membership.html">Explore membership details.</a></p></div></details>
         </div>
         <a class="editorial-link faq-see-all" href="faq.html">See All FAQs <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
-    <section class="editorial-section testimonials-section" aria-label="Testimonials">
-      <div class="container">
-        <!-- Replace these clearly marked placeholders with approved testimonials before publishing. -->
-        <div class="testimonials-grid">
-          <figure class="testimonial reveal">
-            <span class="testimonial-mark" aria-hidden="true">“</span>
-            <blockquote><p>[Approved testimonial quote goes here.]</p></blockquote>
-            <figcaption>[Name or approved attribution]</figcaption>
-          </figure>
-          <figure class="testimonial reveal">
-            <span class="testimonial-mark" aria-hidden="true">“</span>
-            <blockquote><p>Dr. Speicher was very helpful when my son had a sports injury that needed prompt attention and sound judgement.</p></blockquote>
-            <figcaption>Timothy David<br>Chevy Chase, MD</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-pad final-cta" aria-labelledby="inquiry-cta-heading">
+<section class="section-pad final-cta" aria-labelledby="inquiry-cta-heading">
       <div class="container cta-panel cta-panel--wide reveal">
         <h2 id="inquiry-cta-heading">Care starts at conversation.</h2>
-        <p>Interested to become a member? Reach out and Dr. Speicher will follow up to discuss whether Anchor Point might be a good fit for you and your family.</p>
-        <a class="button-primary" href="onboarding.html">Request Membership</a>
+        <p>Interested in becoming a member? Reach out and Dr. Speicher will follow up to discuss whether Anchor Point might be a good fit for you and your family.</p>
+        <a class="button-primary" href="https://calendar.app.google/kogvg1zvvhRYvxt47">Book a 15-minute call with Dr. Speicher</a>
+        <a class="inquiry-secondary" href="onboarding.html#onboarding-form">Prefer to write? Send a note instead.</a>
       </div>
     </section>
 
