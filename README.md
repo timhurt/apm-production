@@ -90,7 +90,7 @@ Netlify references: [CLI authentication and project IDs](https://docs.netlify.co
 - Build output directory: `dist`
 
 ## Before launch
-Replace image placeholders, connect inquiry forms, and replace the LinkedIn/Instagram placeholder links in the footer with official profile URLs.
+Replace image placeholders and add the official Instagram profile URL to the footer. The LinkedIn company page is connected.
 
 ## Search and contact content
 
