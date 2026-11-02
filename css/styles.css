@@ -1409,6 +1409,18 @@ body.inquiry-sending::after { content: none !important; }
 .cta-panel > .inquiry-secondary { margin-inline: auto; }
 .service-area { font-size: .9rem; color: var(--muted); }
 .services-hero-subtitle { margin-block: 20px; font: 500 clamp(1.5rem, 3vw, 2.25rem)/1.2 var(--serif); }
+@media (max-width: 900px) {
+  body[data-page="services"] .care-family-intro h2 { line-height: 1.2; }
+  body[data-page="services"] .services-hero-subtitle { display: none; }
+  body[data-page="services"] .page-hero .lede { margin-bottom: 12px; }
+  body[data-page="services"] .page-hero .editorial-link { margin-top: 0; }
+  body[data-page="services"] .page-hero-grid > div { padding-bottom: 32px; }
+  body[data-page="membership"] .page-hero-grid { gap: 24px; }
+  body[data-page="membership"] .page-hero .lede { margin-bottom: 0; }
+  body[data-page="membership"] .founding-circle { padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .membership-waiting-photo { aspect-ratio: 4 / 3; }
+  .membership-inquiry-intro { display: none; }
+}
 .care-summary-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 40px; margin-top: 28px; padding-left: 0; list-style: none; }
 .concierge-explainer { max-width: 860px; }
 .concierge-explainer h2:not(:first-child) { margin-top: 44px; }

@@ -52,8 +52,10 @@ Optional local preview of built output:
 
 ## Hosting configuration
 ### Netlify
-- Build command: `npm run build`
+- Build command: `npm run build:staging` (the repository's `netlify.toml` sets this default)
 - Publish directory: `dist`
+
+Development and staging builds omit GTM and Google tracking, add `noindex, nofollow` to every page and the Netlify `X-Robots-Tag` response header, and omit the production sitemap. Their robots.txt allows crawling so search engines can read the noindex directive. Production builds retain GTM and the existing page-specific indexing rules. The production workflow explicitly runs `build:production` and deploys without rebuilding.
 
 ### Production Netlify account
 

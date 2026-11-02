@@ -19,6 +19,15 @@ function injectPartials(html, headerMarkup, footerMarkup) {
     .replace(/<div\s+id="site-footer"\s*><\/div>/i, footerMarkup);
 }
 
+function applyEnvironment(html) {
+  if (environment === 'production') return html;
+
+  return html
+    .replace(/<!-- Google Tag Manager(?: \(noscript\))? -->[\s\S]*?<!-- End Google Tag Manager(?: \(noscript\))? -->\s*/g, '')
+    .replace(/<meta\b(?=[^>]*\bname=["']robots["'])[^>]*>\s*/gi, '')
+    .replace('</head>', '  <meta name="robots" content="noindex, nofollow" />\n</head>');
+}
+
 async function build() {
   const [headerMarkup, footerMarkup] = await Promise.all([
     readFile(path.join(partialsDir, 'header.html'), 'utf8'),
@@ -38,7 +47,10 @@ async function build() {
       const sourcePath = path.join(rootDir, page);
       const distPath = path.join(distDir, page);
       const html = await readFile(sourcePath, 'utf8');
-      const compiled = injectPartials(html, headerMarkup, footer);
+      const compiled = applyEnvironment(injectPartials(html, headerMarkup, footer));
+      if (environment !== 'production' && /googletagmanager\.com|\bgtag\s*\(/i.test(compiled)) {
+        throw new Error(`Non-production page ${page} still contains Google tracking.`);
+      }
       if (environment === 'production' && /userback/i.test(compiled)) {
         throw new Error(`Production page ${page} still contains Userback.`);
       }
@@ -58,6 +70,15 @@ async function build() {
 
   // Public assets are served at the site root (for example, /favicon.ico).
   await cp(path.join(rootDir, 'public'), distDir, { recursive: true });
+
+  if (environment !== 'production') {
+    await writeFile(path.join(distDir, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
+    // Crawlers must be allowed to fetch pages to see the noindex directive.
+    await writeFile(path.join(distDir, 'robots.txt'), 'User-agent: *\nAllow: /\n');
+    await rm(path.join(distDir, 'sitemap.xml'), { force: true });
+  } else {
+    await rm(path.join(distDir, '_headers'), { force: true });
+  }
 
   console.log(`Build complete (${environment}): dist folder is ready for deployment.`);
 }

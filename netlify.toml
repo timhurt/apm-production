@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build:staging"
+  publish = "dist"
+
+# Production releases use the dedicated GitHub Actions workflow, which runs
+# build:production and deploys its output with --no-build.
